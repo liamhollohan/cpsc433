@@ -11,15 +11,19 @@ public class Driver {
 		String input = args[0];
 		String output = args[1];
 
+		//Read input file
 		PredicateReader prI = new PredicateReader(input);
 		Environment envI = new Environment(prI);
 		envI.fromFile(input);
 		
+		//Read output file
 		PredicateReader prO = new PredicateReader(output);
 		Environment envO = new Environment(prO);
 		envO.fromFile(output);
 		
 		System.out.println(" -> Terminating...");
+		
+		
 	}
 	
 }
