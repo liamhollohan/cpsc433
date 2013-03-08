@@ -45,16 +45,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	public static Environment get() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	
-	public static Boolean checkHardConstraints()
-	{
-		//I have no idea what I'm doing..
-		return true;
 	}
 
 	@Override
