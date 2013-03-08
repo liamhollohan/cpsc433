@@ -19,28 +19,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	public boolean fixedAssignments;
 	public Solution currentSolution;
 
-	public int fromFile(String datafile) {
-		int ret = 0;
-		BufferedReader stream = null;
-		System.out.println("reading file "+datafile+"...");
-		try {
-			stream = new BufferedReader(new InputStreamReader(new FileInputStream(datafile)));
-			ret = fromStream(stream);
-		}
-		catch (FileNotFoundException ex) {
-			error("Can't open file " + datafile);
-			return -1;
-		}
-		try {
-			if (stream!=null) stream.close();
-		}
-		catch (IOException ex) {
-			error("Can't close file " + datafile);
-		}
-		System.out.println("... read "+ret+" lines from file "+datafile);
-		return ret;
-	}
-
 	public static void reset() {
 		// TODO Auto-generated method stub
 		

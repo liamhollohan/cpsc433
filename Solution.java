@@ -8,6 +8,12 @@ public class Solution {
 
 	public static Object verbosity;
 
+	public boolean checkHardConstraints()
+	{
+		
+		return true;
+	}
+	
 	public boolean isComplete() {
 		// TODO Auto-generated method stub
 		return false;
