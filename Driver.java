@@ -1,5 +1,5 @@
 package cpsc433;
-\\test
+\\testing
 import java.io.File;
 
 public class Driver {
