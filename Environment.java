@@ -315,4 +315,28 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		return false;
 	}
 
+	@Override
+	public void a_group(String p, String grp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean e_group(String p, String grp) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void a_project(String p, String prj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean e_project(String p, String prj) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
