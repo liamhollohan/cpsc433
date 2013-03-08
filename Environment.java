@@ -53,8 +53,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
 	@Override
 	public void a_person(String p) {
-		// TODO Auto-generated method stub
-		
+		Person per = new Person();
+		per.setName(p);
 	}
 
 	@Override
@@ -77,8 +77,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
 	@Override
 	public void a_researcher(String p) {
-		// TODO Auto-generated method stub
-		
+		Person per = new Person();
+		per.setName(p);
+		System.out.println(per.toString(per));
 	}
 
 	@Override
