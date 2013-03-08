@@ -59,13 +59,17 @@ public interface SisyphusPredicates {
 	public void a_hacker(String p);
 	public boolean e_hacker(String p);
 	
-	public static String h_in_group = "query or assert person <id1> is a member of group <id2>";
+	public static String h_in_group = "(syn: group) query or assert person <id1> is a member of group <id2>";
 	public void a_in_group(String p, String grp);
 	public boolean e_in_group(String p, String grp);
+	public void a_group(String p, String grp);
+	public boolean e_group(String p, String grp);
 	
-	public static String h_in_project = "query or assert person <id1> is a member of project <id2>";
+	public static String h_in_project = "(syn: project) query or assert person <id1> is a member of project <id2>";
 	public void a_in_project(String p, String prj);
 	public boolean e_in_project(String p, String prj);
+	public void a_project(String p, String prj);
+	public boolean e_project(String p, String prj);
 	
 	public static String h_heads_group = "query or assert person <id1> heads group <id2>";
 	public void a_heads_group(String p, String grp);
