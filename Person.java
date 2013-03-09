@@ -1,5 +1,9 @@
 package cpsc433;
 
+import java.util.TreeSet;
+
+import cpsc433.Predicate.ParamType;
+
 public class Person {
 
 	private String name;
@@ -7,13 +11,33 @@ public class Person {
 	private Boolean hacker;
 	private String project;
 	private String group;
-	private Person[] worksWith;
-	private Boolean projectHead;
-	private Boolean groupHead;
+	private String[] worksWith;
+	private String projectHead = "None";
+	private String groupHead = "None";
+	private boolean isManager = false;
 	private char role;
 	private Boolean assigned;
 	private Room room;
 	
+	public Person(String name, Boolean smoker, Boolean hacker, String project, String group, String[] worksWith, String projectHead, String groupHead, char role, Boolean assigned, Room room)
+	{
+		setName(name);
+		setSmoker(smoker);
+		setHacker(hacker);
+		setProject(project);
+		setGroup(group);
+		setWorksWith(worksWith);
+		setProjectHead(projectHead);
+		setGroupHead(groupHead);
+		setRole(role);
+		setAssigned(assigned);
+		setRoom(room);
+	}
+	
+	public Person() {
+		
+	}
+
 	public String toString(Person p)
 	{
 		return "Name: " + p.name;
@@ -69,34 +93,44 @@ public class Person {
 		return this.group;
 	}
 	
-	public void setWorksWith(Person[] worksWith)
+	public void setWorksWith(String[] worksWith)
 	{
 		this.worksWith = worksWith;
 	}
 	
-	public Person[] getWorksWith()
+	public String[] getWorksWith()
 	{
 		return this.worksWith;
 	}
 	
-	public void setProjectHead(Boolean projectHead)
+	public void setProjectHead(String projectHead)
 	{
 		this.projectHead = projectHead;
 	}
 	
-	public Boolean getProjectHead()
+	public String getProjectHead()
 	{
 		return this.projectHead;
 	}
 	
-	public void setGroupHead(Boolean groupHead)
+	public void setGroupHead(String groupHead)
 	{
 		this.groupHead = groupHead;
 	}
 	
-	public Boolean getGroupHead()
+	public String getGroupHead()
 	{
 		return this.groupHead;
+	}
+	
+	public void setIsManager(boolean isManager)
+	{
+		this.isManager = isManager;
+	}
+	
+	public boolean getIsManager()
+	{
+		return this.isManager;
 	}
 	
 	public void setRole(char role)

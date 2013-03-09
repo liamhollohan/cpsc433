@@ -1,5 +1,6 @@
 package cpsc433;
-import java.io.File;
+
+import java.util.ArrayList;
 
 public class Driver {
 
@@ -19,6 +20,11 @@ public class Driver {
 		PredicateReader prO = new PredicateReader(output);
 		Environment envO = new Environment(prO);
 		envO.fromFile(output);
+		ArrayList<Tuple> assignment = envO.getAssignment();
+		ArrayList<Person> people = envI.getPeople();
+		System.out.println(people.size());
+		Solution.checkHardConstraints(assignment, people);
+		
 		
 		System.out.println(" -> Terminating...");
 	}

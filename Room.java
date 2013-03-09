@@ -1,5 +1,6 @@
 package cpsc433;
 
-public class Room {
+public class Room 
+{
 
 }
