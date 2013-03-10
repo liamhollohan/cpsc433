@@ -19,6 +19,7 @@ public class Person {
 	private Boolean assigned;
 	private Room room;
 	
+	//Constructor for the person class
 	public Person(String name, Boolean smoker, Boolean hacker, String project, String group, String[] worksWith, String projectHead, String groupHead, char role, Boolean assigned, Room room)
 	{
 		setName(name);
@@ -34,10 +35,18 @@ public class Person {
 		setRoom(room);
 	}
 	
+	//****************************************************************************************************************
+	//****************************************************************************************************************
+	//****************************************************************************************************************
+	//To delete????!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//****************************************************************************************************************
+	//****************************************************************************************************************
+	//****************************************************************************************************************
 	public Person() {
 		
 	}
 
+	//Getters and setters for the person class.
 	public String toString(Person p)
 	{
 		return "Name: " + p.name;

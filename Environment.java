@@ -104,10 +104,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public void a_smoker(String p) 
 	{
+		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
+			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
+				//Set smoker to true for this person.
 				people.get(i).setSmoker(true);
 				break;
 			}
@@ -123,10 +126,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public void a_hacker(String p) 
 	{
+		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
+			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
+				//Set hacker to true for this person.
 				people.get(i).setHacker(true);
 				break;
 			}
@@ -142,10 +148,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public void a_in_group(String p, String grp) 
 	{
+		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
+			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
+				//Set the group attribute in the specified person.
 				people.get(i).setGroup(grp);
 				break;
 			}
@@ -161,10 +170,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public void a_in_project(String p, String prj) 
 	{
+		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
+			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
+				//Set the persons project attribute.
 				people.get(i).setProject(prj);
 				break;
 			}
@@ -180,10 +192,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public void a_heads_group(String p, String grp) 
 	{
+		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
+			//Chekc the persons name.
 			if (people.get(i).getName().equals(p))
 			{
+				//Set the person as the group head of the group.
 				people.get(i).setGroupHead(grp);
 				break;
 			}
@@ -199,10 +214,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public void a_heads_project(String p, String prj) 
 	{
+		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
+			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
+				//Set the person as the head of the project.
 				people.get(i).setProjectHead(prj);
 				break;
 			}
@@ -248,20 +266,31 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	}
 
 	@Override
+	//****************************************************************************************************************
+	//a_assign_to is a method which creates the list of tuples that represents the solution as specified in the 	 *
+	//output file.																									 *
+	//****************************************************************************************************************
 	public void a_assign_to(String p, String room) throws Exception 
 	{
+		//Boolean to check if the room already exists in the list of room/people pairs.
 		boolean exists = false;
+		//Loop to chekc the list of already instantiated rooms in the list of rooms.
 		for (int i = 0; i < assignment.size(); i++)
 		{
+			//Check to see if the room matches a room already in the list.
 			if (assignment.get(i).getRoom().equals(room))
 			{
 				exists = true;
+				//Add the person in the assignment line to the room.  Don't add a duplicate room.
 				assignment.get(i).setPeople(p);
 				break;
 			}
 		}
+		//Check if the room didn't exist in the list.
 		if (!exists)
 		{
+			//If no match was found in the list of rooms, create a new tuple with the first element being the specified room and
+			//the second element being the person being assigned to the room.
 			Tuple t = new Tuple(room, p);
 			assignment.add(t);
 		}
@@ -273,11 +302,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			{
 				System.out.println(x.get(j));
 			}
-		}*/
+		}
 		for (int i=0;i<people.size();i++)
 		{
 			System.out.println(people.get(i).getName());
-		}
+		}*/
 	}
 
 	@Override
