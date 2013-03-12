@@ -2,21 +2,15 @@ package cpsc433;
 
 import java.util.ArrayList;
 
-public class Solution {
-
-	//****************************************************************************************************************
-	//****************************************************************************************************************
-	//****************************************************************************************************************
-	//DELETE????????!!!!!!!!!!!!!!!!!!!!!
+public class Solution 
+{
+	public static Object verbosity;
+	
+	//This is called in his Test class. I'm not positive what it is supposed to do - liam
 	public Solution(String outfilename) {
 		// TODO Auto-generated constructor stub
 	}
-	//****************************************************************************************************************
-	//****************************************************************************************************************
-	//****************************************************************************************************************
 
-	public static Object verbosity;
-	
 	//****************************************************************************************************************
 	//The checkHardConstraints method is in charge of checking if the specified solution violates any of the hard    *
 	//Constraints specified by the problem instance. It takes in an arraylist of tuples called assignment which      *																 
@@ -37,7 +31,7 @@ public class Solution {
 				return false;
 			}
 		}
-		//Bolean that will be set to true if the person being examined in the list of people is a manager, projest head or
+		//Boolean that will be set to true if the person being examined in the list of people is a manager, projest head or
 		//group head.
 		boolean manager = false;
 		//Iterate through the list of people specified in the supplied input file.

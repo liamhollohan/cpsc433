@@ -1,10 +1,5 @@
 package cpsc433;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -12,8 +7,8 @@ import cpsc433.Predicate.ParamType;
 
 public class Environment extends PredicateReader implements SisyphusPredicates{
 
-	private ArrayList<Person> people = new ArrayList();
-	private ArrayList<Tuple> assignment = new ArrayList();
+	private ArrayList<Person> people = new ArrayList<Person>();
+	private ArrayList<Tuple> assignment = new ArrayList<Tuple>();
 	
 	public Environment(PredicateReader p) {
 		super(p);
