@@ -456,12 +456,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		
 		for (int i = 0; i < p2s.size(); i++)
 		{
+			Pair<ParamType, Object> pair = p2s.pollFirst();
+			String per = (String) pair.getValue();
+			System.out.println(" -> PERSON: " + per);
 			//check to see if everyone in the list is already a person
 			for (int j = 0; j < people.size(); j++)
 			{
-				Pair<ParamType, Object> pair = p2s.pollFirst();
-				String per = (String) pair.getValue();
-				System.out.println(" -> PERSON: " + per);
 				if (per.equals(people.get(j)))
 				{
 					break;
