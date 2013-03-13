@@ -7,22 +7,26 @@ import cpsc433.Predicate.ParamType;
 public class Person {
 
 	private String name;
+	private boolean person;
+	private boolean secretary;
+	private boolean researcher;
+	private boolean manager;
 	private Boolean smoker;
 	private Boolean hacker;
 	private String project;
 	private String group;
-	private String[] worksWith;
+	private TreeSet<Pair<ParamType,Object>> worksWith;
 	private String projectHead = "None";
 	private String groupHead = "None";
 	private boolean isManager = false;
-	private char role;
 	private Boolean assigned;
 	private Room room;
 	
 	//Constructor for the person class
-	public Person(String name, Boolean smoker, Boolean hacker, String project, String group, String[] worksWith, String projectHead, String groupHead, char role, Boolean assigned, Room room)
+	/*public Person(String name, Boolean secretary, Boolean smoker, Boolean hacker, String project, String group, TreeSet<Pair<ParamType,Object>> worksWith, String projectHead, String groupHead, Boolean assigned, Room room)
 	{
 		setName(name);
+		setSecretary(secretary);
 		setSmoker(smoker);
 		setHacker(hacker);
 		setProject(project);
@@ -30,22 +34,26 @@ public class Person {
 		setWorksWith(worksWith);
 		setProjectHead(projectHead);
 		setGroupHead(groupHead);
-		setRole(role);
 		setAssigned(assigned);
 		setRoom(room);
+	}*/
+
+	public Person(String name)
+	{
+		this.name = name;
+		this.person = true;
+		this.secretary = false;
+		this.smoker = false;
+		this.hacker = false;
+		this.project = "None";
+		this.group = "None";
+		this.worksWith = null;
+		this.projectHead = "None";
+		this.groupHead = "None";
+		this.assigned = false;
+		this.room = null;
 	}
 	
-	//****************************************************************************************************************
-	//****************************************************************************************************************
-	//****************************************************************************************************************
-	//To delete????!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//****************************************************************************************************************
-	//****************************************************************************************************************
-	//****************************************************************************************************************
-	public Person() {
-		
-	}
-
 	//Getters and setters for the person class.
 	public String toString(Person p)
 	{
@@ -60,6 +68,46 @@ public class Person {
 	public String getName()
 	{
 		return this.name;
+	}
+	
+	public void setPerson(boolean person)
+	{
+		this.person = person;
+	}
+	
+	public boolean getPerson()
+	{
+		return this.person;
+	}
+	
+	public void setSecretary(boolean secretary)
+	{
+		this.secretary = secretary;
+	}
+	
+	public boolean getSecretary()
+	{
+		return this.secretary;
+	}
+	
+	public void setResearcher(boolean researcher)
+	{
+		this.researcher = researcher;
+	}
+	
+	public boolean getResearcher()
+	{
+		return this.researcher;
+	}
+	
+	public void setManager(boolean manager)
+	{
+		this.manager= manager;
+	}
+	
+	public boolean getManager()
+	{
+		return this.manager;
 	}
 	
 	public void setSmoker(Boolean smoker)
@@ -102,15 +150,19 @@ public class Person {
 		return this.group;
 	}
 	
-	public void setWorksWith(String[] worksWith)
+	public void setWorksWith(TreeSet<Pair<ParamType,Object>> worksWith)
 	{
 		this.worksWith = worksWith;
 	}
 	
-	public String[] getWorksWith()
+	public TreeSet<Pair<ParamType,Object>> getWorksWith()
 	{
 		return this.worksWith;
 	}
+	
+	/*public void setWorksWith(String worksWith) {
+		this.worksWith = worksWith;
+	}*/
 	
 	public void setProjectHead(String projectHead)
 	{
@@ -140,16 +192,6 @@ public class Person {
 	public boolean getIsManager()
 	{
 		return this.isManager;
-	}
-	
-	public void setRole(char role)
-	{
-		this.role = role;
-	}
-	
-	public char getRole()
-	{
-		return this.role;
 	}
 	
 	public void setAssigned(Boolean assigned)

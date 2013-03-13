@@ -2,7 +2,7 @@ package cpsc433;
 
 import java.util.ArrayList;
 
-public class Driver {
+public class SisyphusI {
 
 	//****************************************************************************************************************
 	//Driver is the main method which reads the input file supplied and the output file and then checks if the output*
@@ -37,6 +37,17 @@ public class Driver {
 		//Check if the output violates any of the hard constraints of the problem.
 		Solution.checkHardConstraints(assignment, people);		
 		
+		System.out.println("======================================");
+		System.out.println(people.get(0).getName());
+		System.out.println(people.get(0).getSmoker());
+		System.out.println(people.get(0).getHacker());
+		System.out.println(people.get(0).getProject());
+		System.out.println(people.get(0).getGroup());
+		System.out.println(people.get(0).getWorksWith());
+		System.out.println(people.get(0).getProjectHead());
+		System.out.println(people.get(0).getGroupHead());
+		System.out.println(people.get(0).getAssigned());
+		System.out.println(people.get(0).getRoom());
 		System.out.println(" -> Terminating...");
 	}
 	

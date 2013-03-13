@@ -40,65 +40,151 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	
 	@Override
 	public void a_person(String p) {
-		Person per = new Person();
-		per.setName(p);
-		people.add(per);
+		boolean exists = false;
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				people.get(i).setSecretary(true);
+				exists = true;
+			}
+		}
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setPerson(true);
+			per.setName(p);
+			people.add(per);
+		}
 	}
 
 	@Override
 	public boolean e_person(String p) {
-		// TODO Auto-generated method stub
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return true;
+			}
+		} 
 		return false;
 	}
 
 	@Override
 	public void a_secretary(String p) {
-		Person per = new Person();
-		per.setName(p);
-		people.add(per);
-		System.out.println(per.toString(per));
+		boolean exists = false;
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				people.get(i).setSecretary(true);
+				exists = true;
+			}
+		}
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setSecretary(true);
+			a_person(p);
+			per.setName(p);
+			people.add(per);
+		}
 	}
 
 	@Override
 	public boolean e_secretary(String p) {
-		// TODO Auto-generated method stub
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getSecretary();
+			}
+		}
 		return false;
 	}
-
+	
 	@Override
 	public void a_researcher(String p) {
-		Person per = new Person();
-		per.setName(p);
-		people.add(per);
-		System.out.println(people.size());
-		System.out.println(per.toString(per));
+		boolean exists = false;
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				people.get(i).setResearcher(true);
+				exists = true;
+			}
+		}
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setResearcher(true);
+			a_person(p);
+			per.setName(p);
+			people.add(per);
+		}
 	}
 
 	@Override
 	public boolean e_researcher(String p) {
-		// TODO Auto-generated method stub
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getResearcher();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void a_manager(String p) {
-		Person per = new Person();
-		per.setName(p);
-		per.setIsManager(true);
-		people.add(per);
-		System.out.println(people.size());
-		System.out.println(per.toString(per));
+		boolean exists = false;
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				people.get(i).setManager(true);
+				exists = true;
+			}
+		}
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setManager(true);
+			a_person(p);
+			per.setName(p);
+			people.add(per);
+		}
 	}
 
 	@Override
 	public boolean e_manager(String p) {
-		// TODO Auto-generated method stub
-		return false;
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getManager();
+			}
+		}
+		return false;	
 	}
 
 	@Override
 	public void a_smoker(String p) 
 	{
+		boolean exists = false;
 		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
@@ -107,159 +193,364 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			{
 				//Set smoker to true for this person.
 				people.get(i).setSmoker(true);
+				exists = true;
 				break;
 			}
+		}
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setSmoker(true);
+			a_person(p);
+			per.setName(p);
+			people.add(per);
 		}
 	}
 
 	@Override
 	public boolean e_smoker(String p) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void a_hacker(String p) 
-	{
 		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
 			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
-				//Set hacker to true for this person.
+				return people.get(i).getSmoker();
+			}
+		}
+		return false;	
+	}
+
+	@Override
+	public void a_hacker(String p) 
+	{
+		boolean exists = false;
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				//Set smoker to true for this person.
 				people.get(i).setHacker(true);
+				exists = true;
 				break;
 			}
+		}
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setHacker(true);
+			a_person(p);
+			per.setName(p);
+			people.add(per);
 		}
 	}
 
 	@Override
 	public boolean e_hacker(String p) {
-		// TODO Auto-generated method stub
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getHacker();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void a_in_group(String p, String grp) 
 	{
+		boolean exists = false;
 		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
 			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
-				//Set the group attribute in the specified person.
+				//Set smoker to true for this person.
 				people.get(i).setGroup(grp);
+				exists = true;
 				break;
 			}
+		}
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setGroup(grp);
+			a_person(p);
+			a_group(grp);
+			per.setName(p);
+			people.add(per);
 		}
 	}
 
 	@Override
 	public boolean e_in_group(String p, String grp) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void a_in_project(String p, String prj) 
-	{
 		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
 			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
-				//Set the persons project attribute.
+				return people.get(i).getGroup().equals(grp);
+			}
+		}
+		return false;	
+	}
+
+	@Override
+	public void a_in_project(String p, String prj) 
+	{
+		boolean exists = false;
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				//Set the project name for this person.
 				people.get(i).setProject(prj);
+				exists = true;
 				break;
 			}
+		}
+		//If the person doesn't exist, create a new person with the proper values.
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setProject(prj);
+			a_person(p);
+			a_project(prj);
+			per.setName(p);
+			people.add(per);
 		}
 	}
 
 	@Override
 	public boolean e_in_project(String p, String prj) {
-		// TODO Auto-generated method stub
-		return false;
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getProject().equals(prj);
+			}
+		}
+		return false;	
 	}
 
 	@Override
 	public void a_heads_group(String p, String grp) 
 	{
+		boolean exists = false;
 		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
-			//Chekc the persons name.
+			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
-				//Set the person as the group head of the group.
+				//Set the project name for this person.
 				people.get(i).setGroupHead(grp);
+				exists = true;
 				break;
 			}
-		}	
+		}
+		//If the person doesn't exist, create a new person with the proper values.
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setGroupHead(grp);
+			a_person(p);
+			a_group(grp);
+			per.setName(p);
+			people.add(per);
+		}
 	}
 
 	@Override
 	public boolean e_heads_group(String p, String grp) {
-		// TODO Auto-generated method stub
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getGroupHead().equals(grp);
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void a_heads_project(String p, String prj) 
 	{
+		boolean exists = false;
 		//Loop to find the person in the list of people supplied in the input file.
 		for (int i = 0; i<people.size(); i++)
 		{
 			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
-				//Set the person as the head of the project.
+				//Set the project name for this person.
 				people.get(i).setProjectHead(prj);
+				exists = true;
 				break;
 			}
-		}	
+		}
+		//If the person doesn't exist, create a new person with the proper values.
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setProjectHead(prj);
+			a_person(p);
+			a_project(prj);
+			per.setName(p);
+			people.add(per);
+		}
 	}
 
 	@Override
 	public boolean e_heads_project(String p, String prj) {
-		// TODO Auto-generated method stub
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getProjectHead().equals(prj);
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void a_works_with(String p, TreeSet<Pair<ParamType, Object>> p2s) 
 	{
-		System.out.println(p2s.first());
-		/*for (int i = 0; i<people.size(); i++)
+		boolean exists = false;
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
 		{
+			//Check the persons name.
 			if (people.get(i).getName().equals(p))
 			{
+				//Set the project name for this person.
 				people.get(i).setWorksWith(p2s);
+				exists = true;
 				break;
 			}
-		}	*/
+		}
+		//If the person doesn't exist, create a new person with the proper values.
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setWorksWith(p2s);
+			a_person(p);
+			per.setName(p);
+			people.add(per);
+		}
+		
+		for (int i = 0; i < p2s.size(); i++)
+		{
+			//check to see if everyone in the list is already a person
+			for (int j = 0; j < people.size(); j++)
+			{
+				Pair<ParamType, Object> pair = p2s.pollFirst();
+				String per = (String) pair.getValue();
+				System.out.println(" -> PERSON: " + per);
+				if (per.equals(people.get(j)))
+				{
+					break;
+				}
+				else
+				{
+					Person newPerson = new Person(per);
+					a_person(per);
+					newPerson.setName(per);
+				}
+			}
+		}
 	}
 
 	@Override
 	public boolean e_works_with(String p, TreeSet<Pair<ParamType, Object>> p2s) {
-		// TODO Auto-generated method stub
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getWorksWith().equals(p2s);
+			}
+		}
 		return false;
 	}
 
+	//STEVE: We need to overload the worksWith method in the person class somehow.
 	@Override
-	public void a_works_with(String p, String p2) {
-		// TODO Auto-generated method stub
-		
+	public void a_works_with(String p, String p2) 
+	{
+		/*boolean exists = false;
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				//Set the worksWith field for this person.
+				people.get(i).setWorksWith(p2);
+				exists = true;
+				break;
+			}
+		}
+		//If the person doesn't exist, create a new person with the proper values.
+		if (!exists)
+		{
+			Person per = new Person(p);
+			per.setWorksWith(p2);
+			a_person(p);
+			per.setName(p);
+			people.add(per);
+		}
+		exists = false;
+		//Check to see if the second person exists
+		for (int j = 0; j < people.size(); j++)
+		{
+			if (people.get(j).getName().equals(p2))
+			{
+				exists = true;
+				break;
+			}
+		}
+		if (!exists)
+		{
+			Person newPerson = new Person(p2);
+			a_person(p2);
+			newPerson.setName(p2);
+		}*/
 	}
 
+	//Again, the worksWith method needs to be overloaded.
+	//Even though there are no errors, this method will always return false.
 	@Override
 	public boolean e_works_with(String p, String p2) {
-		// TODO Auto-generated method stub
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getWorksWith().equals(p2);
+			}
+		}
 		return false;
-	}
 
+	}
+	
 	@Override
 	//****************************************************************************************************************
 	//a_assign_to is a method which creates the list of tuples that represents the solution as specified in the 	 *
