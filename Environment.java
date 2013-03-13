@@ -10,7 +10,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	//Added in the arraylist of type string for ease of finding people by name.
 	private ArrayList<String> names = new ArrayList<String>();
 	private ArrayList<String> groups = new ArrayList<String>();
-	private ArrayList<String> projects = new ArrayList<String>();
+	private ArrayList<String> projectNames = new ArrayList<String>();
+	private ArrayList<Project> projects = new ArrayList<Project>();
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 	private ArrayList<Person> people = new ArrayList<Person>();
 	private ArrayList<Tuple> assignment = new ArrayList<Tuple>();
@@ -43,32 +44,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		return null;
 	}
 	
-	//***********************************************************8
-	//***********************************************************8
-	//***********************************************************8
-	//***********************************************************8
-	//What with this function setting secretary?
-	//***********************************************************8
-	//***********************************************************8
-	//***********************************************************8
 	@Override
 	public void a_person(String p) 
 	{
-		//Check to see if the person already exists.
-		if(names.contains(p))
-		{
-			//If they do exist find the person and update fields.
-			for (int i = 0; i<people.size(); i++)
-			{
-				//Check the persons name and update secretary to true when found.
-				if (people.get(i).getName().equals(p))
-				{
-					people.get(i).setSecretary(true);
-					break;
-				}
-			}
-		}
-		else
+		//Check to see if the person doesn't already exists.
+		if(!names.contains(p))
 		{
 			//Create the person and set their name.
 			Person per = new Person(p);
@@ -631,7 +611,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		if (!projects.contains(prj))
 		{
 			//If not, add it.
-			projects.add(prj);
+			projectNames.add(prj);
 		}
 		//************************************************************************************************
 		//************************************************************************************************
@@ -852,7 +832,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		{
 			Pair<ParamType, Object> pair = p2s.pollFirst();
 			String per = (String) pair.getValue();
-			System.out.println(" -> PERSON: " + per);
+			//System.out.println(" -> PERSON: " + per);
 			//check to see if everyone in the list is already a person
 			for (int j = 0; j < people.size(); j++)
 			{
@@ -1177,61 +1157,125 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
 	@Override
 	public void a_group(String g) {
-		
+		//Check to see if the group already exists.
+		if(!groups.contains(g))
+		{
+			//group was not found so create the group.
+			groups.add(g);
+		}
 	}
 
 	@Override
 	public boolean e_group(String g) {
-		// TODO Auto-generated method stub
-		return false;
+		return groups.contains(g);
 	}
 
 	@Override
 	public void a_project(String p) {
-		// TODO Auto-generated method stub
-		
+		//Check to see if the project already exists.
+		if(!projectNames.contains(p))
+		{
+			//projects was not found so create the project.
+			Project prj = new Project(p);
+			//Add project to the array list
+			projectNames.add(p);
+		}
 	}
 
 	@Override
 	public boolean e_project(String p) {
-		// TODO Auto-generated method stub
-		return false;
+		return projectNames.contains(p);
 	}
 
 	@Override
 	public void a_large_project(String prj) {
-		// TODO Auto-generated method stub
-		
+		boolean exists = false;
+		for (int i = 0; i < projects.size(); i++)
+		{
+			if (projects.get(i).getName().equals(prj))
+			{
+				projects.get(i).setSize("large");
+				exists = true;
+				break;
+			}
+		}
+		if (!exists)
+		{
+			Project p = new Project(prj);
+			p.setSize("large");
+			projectNames.add(prj);
+		}
 	}
 
 	@Override
 	public boolean e_large_project(String prj) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < projects.size(); i++)
+			if (projects.get(i).getName().equals(prj))
+				return projects.get(i).getSize().equals("large");
 		return false;
 	}
 
 	@Override
 	public void a_group(String p, String grp) {
-		// TODO Auto-generated method stub
+		a_in_group(p, grp);
 		
 	}
 
 	@Override
 	public boolean e_group(String p, String grp) {
-		// TODO Auto-generated method stub
-		return false;
+		return e_in_group(p, grp);
 	}
 
 	@Override
 	public void a_project(String p, String prj) {
-		// TODO Auto-generated method stub
+		//Boolean to detect if the person exists or not.
+		boolean exists = false;
+		//Loop to search for the person.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				//Person was found so update the field within.
+				people.get(i).setProject(prj);
+				exists = true;
+				break;
+			}
+		}
+		//Person was not found in the list of people
+		if (!exists)
+		{
+			//Create the person and set their name.
+			Person per = new Person(p);
+			per.setPerson(true);
+			per.setName(p);
+			per.setProject(prj);
+			people.add(per);
+			//Add the persons name to the list of people.
+			names.add(p);
+		}
 		
+		//Check if the project exists
+		exists = false;
+		for (int i = 0; i < projects.size(); i++)
+		{
+			if (projects.get(i).getName().equals(prj))
+			{
+				exists = true;
+				break;
+			}
+		}
+		if (!exists)
+		{
+			Project newProject = new Project(prj);
+			projects.add(newProject);
+			projectNames.add(prj);
+		}
 	}
 
 	@Override
 	public boolean e_project(String p, String prj) {
-		// TODO Auto-generated method stub
-		return false;
+		return e_in_project(p, prj);
 	}
 
 }

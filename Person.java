@@ -15,7 +15,7 @@ public class Person {
 	private Boolean hacker;
 	private String project;
 	private String group;
-	private TreeSet<Pair<ParamType,Object>> worksWith;
+	private TreeSet<Pair<ParamType,Object>> worksWith;// = new TreeSet<Pair<ParamType,Object>>();
 	private String projectHead = "None";
 	private String groupHead = "None";
 	private boolean isManager = false;
@@ -161,9 +161,22 @@ public class Person {
 	}
 	
 	/*public void setWorksWith(String worksWith) {
-		this.worksWith = worksWith;
+		Pair p = new Pair(this.name, worksWith);
+		System.out.println(this.worksWith.pollFirst());
+		if (this.worksWith.isEmpty())
+		{
+			this.worksWith = new TreeSet<Pair<ParamType,Object>>();
+			this.worksWith.add(p);
+		}
+		this.worksWith.add(p);
+		for (int i =0; i<this.worksWith.size(); i++)
+		{
+			Pair<ParamType, Object> pair = this.worksWith.pollFirst();
+			String per = (String) pair.getValue();
+			System.out.println(" -> VALUE: " + per);
+		}
 	}*/
-	
+
 	public void setProjectHead(String projectHead)
 	{
 		this.projectHead = projectHead;
