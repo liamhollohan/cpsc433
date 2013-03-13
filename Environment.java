@@ -8,8 +8,10 @@ import cpsc433.Predicate.ParamType;
 public class Environment extends PredicateReader implements SisyphusPredicates{
 
 	//Added in the arraylist of type string for ease of finding people by name.
-	private ArrayList<String> Names = new ArrayList<String>();
-	
+	private ArrayList<String> names = new ArrayList<String>();
+	private ArrayList<String> groups = new ArrayList<String>();
+	private ArrayList<String> projects = new ArrayList<String>();
+	private ArrayList<Room> rooms = new ArrayList<Room>();
 	private ArrayList<Person> people = new ArrayList<Person>();
 	private ArrayList<Tuple> assignment = new ArrayList<Tuple>();
 	
@@ -335,6 +337,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			//Add the persons name to the list of people.
 			names.add(p);
 		}
+		//Checks to see if the group exists in the group list.
+		if (!groups.contains(grp))
+		{
+			//If not, add it.
+			groups.add(grp);
+		}
 	}
 
 	@Override
@@ -379,6 +387,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			people.add(per);
 			//Add the persons name to the list of people.
 			names.add(p);
+		}
+		//Check to see if the project already exists in the project list.
+		if (!projects.contains(prj))
+		{
+			//If not, add it.
+			projects.add(prj);
 		}
 	}
 
@@ -657,22 +671,50 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
 	@Override
 	public boolean e_assign_to(String p, String room) {
-		// TODO Auto-generated method stub
+		//Loop to find the person in the list of people supplied in the input file.
+		for (int i = 0; i<people.size(); i++)
+		{
+			//Check the persons name.
+			if (people.get(i).getName().equals(p))
+			{
+				return people.get(i).getRoom().getName().equals(room);
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void a_room(String r) {
-		// TODO Auto-generated method stub
-		
+		boolean exists = false;
+		for (int i = 0; i < rooms.size(); i++)
+		{
+			if (rooms.get(i).getName().equals(r))
+			{
+				exists = true;
+				break;
+			}
+		}
+		if (!exists)
+		{
+			Room room = new Room(r);
+		}
 	}
 
 	@Override
 	public boolean e_room(String r) {
-		// TODO Auto-generated method stub
+		//Loop to find the room in the list of rooms names we have.
+		for (int i = 0; i<rooms.size(); i++)
+		{
+			//Compares the room name
+			if (rooms.get(i).getName().equals(r))
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 
+	//Again, for these two methods we're going to have to do some crazy stuff like worksWith
 	@Override
 	public void a_close(String room, String room2) {
 		// TODO Auto-generated method stub
@@ -687,55 +729,131 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
 	@Override
 	public void a_close(String room, TreeSet<Pair<ParamType, Object>> set) {
-		// TODO Auto-generated method stub
-		
+		boolean exists = false;
+		for (int i = 0; i < rooms.size(); i++)
+		{
+			if (rooms.get(i).getName().equals(room))
+			{
+				rooms.get(i).setClose(set);
+				exists = true;
+				break;
+			}
+		}
+		if (!exists)
+		{
+			Room newRoom = new Room(room);
+			newRoom.setClose(set);
+		}
 	}
 
 	@Override
 	public boolean e_close(String room, TreeSet<Pair<ParamType, Object>> set) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i<rooms.size(); i++)
+		{
+			if (rooms.get(i).getName().equals(room))
+			{
+				return rooms.get(i).getClose().equals(set);
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void a_large_room(String r) {
-		// TODO Auto-generated method stub
-		
+		boolean exists = false;
+		for (int i = 0; i < rooms.size(); i++)
+		{
+			if (rooms.get(i).getName().equals(r))
+			{
+				rooms.get(i).setSize("large");
+				exists = true;
+				break;
+			}
+		}
+		if (!exists)
+		{
+			Room room = new Room(r);
+			room.setSize("large");
+		}
 	}
 
 	@Override
 	public boolean e_large_room(String r) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i<rooms.size(); i++)
+		{
+			if (rooms.get(i).getName().equals(r))
+			{
+				return rooms.get(i).getSize().equals("large");
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void a_medium_room(String r) {
-		// TODO Auto-generated method stub
-		
+		boolean exists = false;
+		for (int i = 0; i < rooms.size(); i++)
+		{
+			if (rooms.get(i).getName().equals(r))
+			{
+				rooms.get(i).setSize("medium");
+				exists = true;
+				break;
+			}
+		}
+		if (!exists)
+		{
+			Room room = new Room(r);
+			room.setSize("medium");
+		}		
 	}
 
 	@Override
 	public boolean e_medium_room(String r) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i<rooms.size(); i++)
+		{
+			if (rooms.get(i).getName().equals(r))
+			{
+				return rooms.get(i).getSize().equals("medium");
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public void a_small_room(String r) {
-		// TODO Auto-generated method stub
-		
+		boolean exists = false;
+		for (int i = 0; i < rooms.size(); i++)
+		{
+			if (rooms.get(i).getName().equals(r))
+			{
+				rooms.get(i).setSize("small");
+				exists = true;
+				break;
+			}
+		}
+		if (!exists)
+		{
+			Room room = new Room(r);
+			room.setSize("small");
+		}				
 	}
 
 	@Override
 	public boolean e_small_room(String r) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i<rooms.size(); i++)
+		{
+			if (rooms.get(i).getName().equals(r))
+			{
+				return rooms.get(i).getSize().equals("small");
+			}
+		}
 		return false;
+
 	}
 
 	@Override
 	public void a_group(String g) {
-		// TODO Auto-generated method stub
 		
 	}
 
