@@ -1,11 +1,11 @@
 package cpsc433;
 
-public class Project 
+public class Group 
 {
 	private String name;
 	private String size;
 	
-	public Project(String name)
+	public Group(String name)
 	{
 		this.name = name;
 		this.size = "none";
