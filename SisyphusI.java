@@ -7,6 +7,7 @@ public class SisyphusI {
 	
 	private static final long DEFAULT_MAX_TIME = 30000;
 	static PrintStream traceFile;
+	public static PrintStream output;
 
 	//****************************************************************************************************************
 	//This is the main method which reads the input file supplied and the output file and then checks if the output  *
@@ -29,7 +30,7 @@ public class SisyphusI {
 		}
 		catch (Exception ex) {traceFile = null;}
 
-		if (args.length>=2) {
+		/*if (args.length>=2) {
 			long runtime = DEFAULT_MAX_TIME;
 			if (args.length<3) {
 				printSynopsis();
@@ -43,11 +44,20 @@ public class SisyphusI {
 			PredicateReader prI = new PredicateReader(args[0]);
 			Environment envI = new Environment(prI);
 			envI.fromFile(args[0]);
+			
+			
 		}
-		else if (args.length==1) {
+		else*/ if (args.length <= 2) {
+			String outfile = makeOutfilename(args[0]);
+			try {
+				output = new PrintStream(new FileOutputStream(outfile));
+			}
+			catch (Exception ex) {traceFile = null;}
 			PredicateReader prI = new PredicateReader(args[0]);
 			Environment envI = new Environment(prI);
 			envI.fromFile(args[0]);
+			
+			
 		}
 		else { // go into "command mode" if there's nothing on the command line
 			PredicateReader env = Environment.get();

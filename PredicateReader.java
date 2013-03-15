@@ -165,6 +165,7 @@ public class PredicateReader extends Entity {
 			if (line.length()>0) {
 				Predicate p = makePredicate(line);
 				if (p!=null && p.getName()!=null) {
+					SisyphusI.output.print(p.toString()+"\n");
 					System.out.println(p.toString());
 					assert_(p);
 				}

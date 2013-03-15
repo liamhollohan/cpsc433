@@ -1,5 +1,6 @@
 package cpsc433;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -30,10 +31,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		//Resets all ArrayList values.
 		peopleNames.clear();
 		groupNames.clear();
-		//groups.clear();
+		groups.clear();
 		projectNames.clear();
 		projects.clear();
-		//roomNames.clear();
+		roomNames.clear();
 		rooms.clear();
 		people.clear();
 		assignment.clear();
@@ -51,12 +52,20 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	
 	public static Environment get() 
 	{
-		return null;
+		PredicateReader pr = new PredicateReader("");
+		return new Environment(pr);
 	}
 	
 	@Override
 	public void a_person(String p) 
 	{
+		//assert_("person(" + p + ")");
+		/*try {
+			Predicate pred = new Predicate("person(" + p + ")");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		//Check to see if the person doesn't already exist.
 		if(!peopleNames.contains(p))
 		{
@@ -66,11 +75,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			//Add the persons name to the list of people.
 			peopleNames.add(p);
 		}
-		System.out.println(" -> Size: " + peopleNames.size());
+		/*System.out.println(" -> Size: " + peopleNames.size());
 		for (int i = 0; i < peopleNames.size(); i++)
 		{
 			System.out.println(" -> Names: " + peopleNames.get(i));
-		}
+		}*/
 	}
 
 	@Override
@@ -108,10 +117,18 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
-			Person per = new Person(p);
-			per.setSecretary(true);
-			people.add(per);
-			peopleNames.add(p);
+			assert_("person(" + p + ")");
+			//Loop to search for the person.
+			for (int i = 0; i<people.size(); i++)
+			{
+				//Check the persons name.
+				if (people.get(i).getName().equals(p))
+				{
+					//Person was found so update secretary to true.
+					people.get(i).setSecretary(true);
+					break;
+				}
+			}
 		}
 	}
 
@@ -150,11 +167,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//Person doesn't exist yet so create the person and set their name and set the researcher field to true.
-			Person per = new Person(p);
-			per.setResearcher(true);
-			people.add(per);
-			peopleNames.add(p);
+			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
+			assert_("person(" + p + ")");
+			//Loop to search for the person.
+			for (int i = 0; i<people.size(); i++)
+			{
+				//Check the persons name.
+				if (people.get(i).getName().equals(p))
+				{
+					//Person was found so update secretary to true.
+					people.get(i).setResearcher(true);
+					break;
+				}
+			}
 		}
 	}
 
@@ -193,11 +218,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//Person doesn't exist yet so create the person and set their name and set the manager field to true.
-			Person per = new Person(p);
-			per.setManager(true);
-			people.add(per);
-			peopleNames.add(p);
+			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
+			assert_("person(" + p + ")");
+			//Loop to search for the person.
+			for (int i = 0; i<people.size(); i++)
+			{
+				//Check the persons name.
+				if (people.get(i).getName().equals(p))
+				{
+					//Person was found so update secretary to true.
+					people.get(i).setManager(true);
+					break;
+				}
+			}
 		}
 	}
 
@@ -236,12 +269,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//Person doesn't exist yet so create the person and set their name and set the smoker field to true.
-			Person per = new Person(p);
-			per.setSmoker(true);
-			people.add(per);
-			//Add the persons name to the list of people.
-			peopleNames.add(p);
+			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
+			assert_("person(" + p + ")");
+			//Loop to search for the person.
+			for (int i = 0; i<people.size(); i++)
+			{
+				//Check the persons name.
+				if (people.get(i).getName().equals(p))
+				{
+					//Person was found so update secretary to true.
+					people.get(i).setSmoker(true);
+					break;
+				}
+			}
 		}
 	}
 
@@ -280,13 +320,20 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//Person doesn't exist yet so create the person and set their name and set the hacker field to true.
-			Person per = new Person(p);
-			per.setHacker(true);
-			people.add(per);
-			//Add the persons name to the list of people.
-			peopleNames.add(p);
-		}	
+			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
+			assert_("person(" + p + ")");
+			//Loop to search for the person.
+			for (int i = 0; i<people.size(); i++)
+			{
+				//Check the persons name.
+				if (people.get(i).getName().equals(p))
+				{
+					//Person was found so update secretary to true.
+					people.get(i).setHacker(true);
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -324,17 +371,25 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//Person was not found so create the person and set the appropriate fields.
-			Person per = new Person(p);
-			per.setGroup(grp);
-			people.add(per);
-			//Add the persons name to the list of people.
-			peopleNames.add(p);
+			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
+			assert_("person(" + p + ")");
+			//Loop to search for the person.
+			for (int i = 0; i<people.size(); i++)
+			{
+				//Check the persons name.
+				if (people.get(i).getName().equals(p))
+				{
+					//Person was found so update secretary to true.
+					people.get(i).setGroup(grp);
+					break;
+				}
+			}
 		}
 		//Checks to see if the group exists in the group list.
 		if (!groupNames.contains(grp))
 		{
 			//If not, add it.
+			assert_("group("+ grp + ")");
 			Group newGroup = new Group(grp);
 			groups.add(newGroup);
 			groupNames.add(grp);
@@ -376,12 +431,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//Person never existed.  Create them and populate the proper values.
-			Person per = new Person(p);
-			per.setProject(prj);
-			people.add(per);
-			//Add the persons name to the list of people.
-			peopleNames.add(p);
+			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
+			System.out.println("HEY");
+			assert_("person(" + p + ")");
+			Person newPerson = new Person(p);
+			newPerson.setProject(prj);
+			people.add(newPerson);
 		}
 		//Check to see if the project already exists.
 		if (!projects.contains(prj))
@@ -428,12 +483,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//Person didn't exist so create them and populate the proper fields.
-			Person per = new Person(p);
-			per.setGroupHead(grp);
-			people.add(per);
-			//Add the persons name to the list of people.
-			peopleNames.add(p);
+			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
+			assert_("person(" + p + ")");
+			//Loop to search for the person.
+			for (int i = 0; i<people.size(); i++)
+			{
+				//Check the persons name.
+				if (people.get(i).getName().equals(p))
+				{
+					//Person was found so update secretary to true.
+					people.get(i).setGroupHead(grp);
+					break;
+				}
+			}
 		}
 		if (!groupNames.contains(grp))
 		{
@@ -479,11 +541,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		//If the person doesn't exist, create a new person with the proper values.
 		if (!exists)
 		{
-			Person per = new Person(p);
-			per.setProjectHead(prj);
-			people.add(per);
-			//Add the persons name to the list of people.
-			peopleNames.add(p);
+			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
+			assert_("person(" + p + ")");
+			//Loop to search for the person.
+			for (int i = 0; i<people.size(); i++)
+			{
+				//Check the persons name.
+				if (people.get(i).getName().equals(p))
+				{
+					//Person was found so update secretary to true.
+					people.get(i).setProjectHead(prj);
+					break;
+				}
+			}
 		}
 		if (!projectNames.contains(prj))
 		{
@@ -512,6 +582,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public void a_works_with(String p, TreeSet<Pair<ParamType, Object>> p2s) 
 	{
+		for (Pair<ParamType, Object> pair : p2s) {
+			String personName = (String)pair.getValue();
+			a_works_with(p, personName);
+		}
 		//Boolean to detect if the person exists.
 		boolean exists = false;
 		//Loop to find the person in the list of people supplied in the input file.
@@ -529,6 +603,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		//If the person doesn't exist, create a new person with the proper values.
 		if (!exists)
 		{
+			assert_("person(" + p + ")");
 			Person per = new Person(p);
 			per.setWorksWith(p2s);
 			people.add(per);
@@ -552,6 +627,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 				}
 				if (!exists)
 				{
+					//assert_("person(" + per + ")");
 					Person newPerson = new Person(per);
 					people.add(newPerson);
 					//Add the persons name to the list of people if they don't exist.
@@ -609,11 +685,17 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		//Check if the room didn't exist in the list.
 		if (!exists)
 		{
+			assert_("room(" + room + ")");
 			//If no match was found in the list of rooms, create a new tuple with the first element being the specified room and
 			//the second element being the person being assigned to the room.
 			Tuple t = new Tuple(room, p);
 			assignment.add(t);
 		}
+		if (!peopleNames.contains(p))
+		{
+			assert_("person(" + p + ")");
+		}
+		
 		//For testing:
 		/*for (int i=0;i<assignment.size();i++)
 		{
@@ -683,6 +765,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
+			assert_("room("+ room + ")");
 			Room newRoom = new Room(room);
 			newRoom.setClose(room2);
 			rooms.add(newRoom);
@@ -702,6 +785,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
+			assert_("room("+ room2 + ")");
 			Room newRoom = new Room(room2);
 			newRoom.setClose(room);
 			rooms.add(newRoom);
@@ -771,6 +855,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		if (!exists)
 		{
+			assert_("room(" + r + ")");
 			Room room = new Room(r);
 			room.setSize("large");
 		}
@@ -802,6 +887,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		if (!exists)
 		{
+			assert_("room(" + r + ")");
 			Room room = new Room(r);
 			room.setSize("medium");
 		}		
@@ -833,6 +919,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		if (!exists)
 		{
+			assert_("room(" + r + ")");
 			Room room = new Room(r);
 			room.setSize("small");
 		}				
@@ -943,17 +1030,25 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		//Person was not found in the list of people
 		if (!exists)
 		{
-			//Create the person and set their name.
-			Person per = new Person(p);
-			per.setProject(prj);
-			people.add(per);
-			//Add the persons name to the list of people.
-			peopleNames.add(p);
+			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
+			assert_("person(" + p + ")");
+			//Loop to search for the person.
+			for (int i = 0; i<people.size(); i++)
+			{
+				//Check the persons name.
+				if (people.get(i).getName().equals(p))
+				{
+					//Person was found so update secretary to true.
+					people.get(i).setSmoker(true);
+					break;
+				}
+			}
 		}
 		
 		//Check if the project exists
 		if (!projectNames.contains(prj))
 		{
+			assert_("project(" + prj + ")");
 			Project newProject = new Project(prj);
 			projects.add(newProject);
 			projectNames.add(prj);
