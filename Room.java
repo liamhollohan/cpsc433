@@ -10,8 +10,7 @@ public class Room
 	private String name;
 	private String size;
 	private Person[] people;
-	private TreeSet<Pair<ParamType, Object>> close;
-	private ArrayList<String> close2 = new ArrayList<String>();
+	private ArrayList<String> close = new ArrayList<String>();
 	
 	public Room(String name)
 	{
@@ -49,23 +48,14 @@ public class Room
 		return this.people;
 	}
 	
-	public void setClose(TreeSet<Pair<ParamType, Object>> close)
-	{
-		this.close = close;
-	}
-	
-	public TreeSet<Pair<ParamType, Object>> getClose()
+	public ArrayList<String> getClose()
 	{
 		return this.close;
 	}
 	
-	public ArrayList<String> getClose2()
-	{
-		return this.close2;
-	}
-	
 	public void setClose(String close)
 	{
-		this.close2.add(close);
+		if (!this.close.contains(close))
+			this.close.add(close);
 	}
 }

@@ -60,9 +60,9 @@ public class SisyphusI {
 			
 		}
 		else { // go into "command mode" if there's nothing on the command line
-			PredicateReader env = Environment.get();
+			//Environment env = new Environment();
 			printSynopsis();
-			commandMode(env);
+			//commandMode(env);
 		}
 
 		if (traceFile!=null) {

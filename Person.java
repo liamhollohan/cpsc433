@@ -1,5 +1,6 @@
 package cpsc433;
 
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 import cpsc433.Predicate.ParamType;
@@ -15,28 +16,12 @@ public class Person {
 	private Boolean hacker;
 	private String project;
 	private String group;
-	private TreeSet<Pair<ParamType,Object>> worksWith;// = new TreeSet<Pair<ParamType,Object>>();
+	private ArrayList<String> worksWith = new ArrayList<String>();
 	private String projectHead = "None";
 	private String groupHead = "None";
-	private boolean isManager = false;
 	private Boolean assigned;
 	private Room room;
-	
-	//Constructor for the person class
-	/*public Person(String name, Boolean secretary, Boolean smoker, Boolean hacker, String project, String group, TreeSet<Pair<ParamType,Object>> worksWith, String projectHead, String groupHead, Boolean assigned, Room room)
-	{
-		setName(name);
-		setSecretary(secretary);
-		setSmoker(smoker);
-		setHacker(hacker);
-		setProject(project);
-		setGroup(group);
-		setWorksWith(worksWith);
-		setProjectHead(projectHead);
-		setGroupHead(groupHead);
-		setAssigned(assigned);
-		setRoom(room);
-	}*/
+
 
 	public Person(String name)
 	{
@@ -45,6 +30,7 @@ public class Person {
 		this.secretary = false;
 		this.smoker = false;
 		this.hacker = false;
+		this.manager = false;
 		this.project = "None";
 		this.group = "None";
 		this.worksWith = null;
@@ -55,9 +41,9 @@ public class Person {
 	}
 	
 	//Getters and setters for the person class.
-	public String toString(Person p)
+	public static String toString(Person p)
 	{
-		return "Name: " + p.name;
+		return "";
 	}
 	
 	public void setName(String name)
@@ -150,32 +136,16 @@ public class Person {
 		return this.group;
 	}
 	
-	public void setWorksWith(TreeSet<Pair<ParamType,Object>> worksWith)
-	{
-		this.worksWith = worksWith;
-	}
-	
-	public TreeSet<Pair<ParamType,Object>> getWorksWith()
+	public ArrayList<String> getWorksWith()
 	{
 		return this.worksWith;
 	}
 	
-	/*public void setWorksWith(String worksWith) {
-		Pair p = new Pair(this.name, worksWith);
-		System.out.println(this.worksWith.pollFirst());
-		if (this.worksWith.isEmpty())
-		{
-			this.worksWith = new TreeSet<Pair<ParamType,Object>>();
-			this.worksWith.add(p);
-		}
-		this.worksWith.add(p);
-		for (int i =0; i<this.worksWith.size(); i++)
-		{
-			Pair<ParamType, Object> pair = this.worksWith.pollFirst();
-			String per = (String) pair.getValue();
-			System.out.println(" -> VALUE: " + per);
-		}
-	}*/
+	public void setWorksWith(String worksWith) 
+	{
+		if (!this.worksWith.contains(worksWith))
+			this.worksWith.add(worksWith);
+	}
 
 	public void setProjectHead(String projectHead)
 	{
@@ -195,16 +165,6 @@ public class Person {
 	public String getGroupHead()
 	{
 		return this.groupHead;
-	}
-	
-	public void setIsManager(boolean isManager)
-	{
-		this.isManager = isManager;
-	}
-	
-	public boolean getIsManager()
-	{
-		return this.isManager;
 	}
 	
 	public void setAssigned(Boolean assigned)
