@@ -3,12 +3,12 @@ package cpsc433;
 public class Project 
 {
 	private String name;
-	private String size;
+	private boolean large;
 	
 	public Project(String name)
 	{
 		this.name = name;
-		this.size = "none";
+		this.large = false;
 	}
 	
 	public void setName(String name)
@@ -21,13 +21,13 @@ public class Project
 		return this.name;
 	}
 	
-	public void setSize(String size)
+	public void setLarge(boolean large)
 	{
-		this.size = size;
+		this.large = large;
 	}
 	
-	public String getSize()
+	public boolean getLarge()
 	{
-		return this.size;
+		return this.large;
 	}
 }

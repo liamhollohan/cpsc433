@@ -919,7 +919,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			{
 				if (projects.get(i).getName().equals(prj))
 				{
-					rooms.get(i).setSize("large");
+					projects.get(i).setLarge(true);
 					break;
 				}
 			}
@@ -928,7 +928,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		{
 			//assert_("room(" + r + ")");
 			Project project= new Project(prj);
-			project.setSize("large");
+			project.setLarge(true);
 		}
 	}
 
@@ -936,7 +936,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	public boolean e_large_project(String prj) {
 		for (int i = 0; i < projects.size(); i++)
 			if (projects.get(i).getName().equals(prj))
-				return projects.get(i).getSize().equals("large");
+				return projects.get(i).getLarge();
 		return false;
 	}
 
