@@ -1,14 +1,10 @@
 package cpsc433;
 
 import java.util.ArrayList;
-import java.util.TreeSet;
-
-import cpsc433.Predicate.ParamType;
 
 public class Person {
 
 	private String name;
-	private boolean person;
 	private boolean secretary;
 	private boolean researcher;
 	private boolean manager;
@@ -26,14 +22,12 @@ public class Person {
 	public Person(String name)
 	{
 		this.name = name;
-		this.person = true;
 		this.secretary = false;
 		this.smoker = false;
 		this.hacker = false;
 		this.manager = false;
 		this.project = "None";
 		this.group = "None";
-		this.worksWith = null;
 		this.projectHead = "None";
 		this.groupHead = "None";
 		this.assigned = false;
@@ -54,16 +48,6 @@ public class Person {
 	public String getName()
 	{
 		return this.name;
-	}
-	
-	public void setPerson(boolean person)
-	{
-		this.person = person;
-	}
-	
-	public boolean getPerson()
-	{
-		return this.person;
 	}
 	
 	public void setSecretary(boolean secretary)

@@ -100,46 +100,47 @@ public class Solution
 		//Loop to go through and print all of the predicates to do ith people to the file.
 		for(int i = 0;i < people.size(); i++)
 		{
-			SysiphusI.output.print("person(" + people.get(i).getName() + ")" + "\n");
+			SisyphusI.output.print("person(" + people.get(i).getName() + ")" + "\n");
 			//Check if the person is a secretary and if so print the predicate to the file.
 			if(people.get(i).getSecretary() == true)
-				SysiphusI.output.print("secretary(" + people.get(i).getName() + ")" + "\n");
+				SisyphusI.output.print("secretary(" + people.get(i).getName() + ")" + "\n");
 			//Check if the person is a researcher and if so print the predicate to the file.
-			if(people.get(i).getSecretary() == true)
-				SysiphusI.output.print("secretary(" + people.get(i).getName() + ")" + "\n");
+			if(people.get(i).getResearcher() == true)
+				SisyphusI.output.print("researcher(" + people.get(i).getName() + ")" + "\n");
 			//Check if the person is a manager and if so print the predicate to the file.
 			if(people.get(i).getManager() == true)
-				SysiphusI.output.print("manager(" + people.get(i).getName() + ")" + "\n");
+				SisyphusI.output.print("manager(" + people.get(i).getName() + ")" + "\n");
 			//Check if the person is a smoker and if so print the predicate to the file.
 			if(people.get(i).getSmoker() == true)
-				SysiphusI.output.print("smoker(" + people.get(i).getName() + ")" + "\n");
+				SisyphusI.output.print("smoker(" + people.get(i).getName() + ")" + "\n");
 			//Check if the person is a hacker and if so print the predicate to the file.
 			if(people.get(i).getHacker() == true)
-				SysiphusI.output.print("hacker(" + people.get(i).getName() + ")" + "\n");
+				SisyphusI.output.print("hacker(" + people.get(i).getName() + ")" + "\n");
 			//Check if the person is in a project and if they are print the person/project predicate to the file.
 			if(!people.get(i).getProject().equals("None"))
-				SysiphusI.output.print("project(" + people.get(i).getName() + ", " + people.get(i).getProject() + ")" + "\n");
+				SisyphusI.output.print("project(" + people.get(i).getName() + ", " + people.get(i).getProject() + ")" + "\n");
 			//Check if the person is in a group and if they are print the person/group predicate to the file.
 			if(!people.get(i).getGroup().equals("None"))
-				SysiphusI.output.print("group(" + people.get(i).getName() + ", " + people.get(i).getGroup() + ")" + "\n");
+				SisyphusI.output.print("group(" + people.get(i).getName() + ", " + people.get(i).getGroup() + ")" + "\n");
 			//Check to see if the person works with anyone and if so print the worksWith predicate to the file.
 			if(!people.get(i).getWorksWith().isEmpty())
 			{
-				SysiphusI.output.print("works-with(" + people.get(i).getName() + " {");
+				SisyphusI.output.print("works-with(" + people.get(i).getName() + ", {");
 				//Loop to print out the list of people the current person works with.
-				for(int j = 0; j < people.get(i).getWorksWith().size() - 1; j++)
+				int j = 0;
+				for(j = 0; j < people.get(i).getWorksWith().size() - 1; j++)
 				{
-					SysiphusI.output.print(people.get(i).getWorksWith().get(j) + ", ")
+					SisyphusI.output.print(people.get(i).getWorksWith().get(j) + ", ");
 				}
-				SysiphusI.output.print(people.get(i).getWorksWith().get(j) + "})" + "/n");
+				SisyphusI.output.print(people.get(i).getWorksWith().get(j) + "})" + "\n");
 			}
 			//Check if the person is a project head and if they are print the person/project predicate to the file.
 			if(!people.get(i).getProjectHead().equals("None"))
-				SysiphusI.output.print("heads-project(" + people.get(i).getName() + ", " + people.get(i).getProject() + ")" + "\n");
+				SisyphusI.output.print("heads-project(" + people.get(i).getName() + ", " + people.get(i).getProject() + ")" + "\n");
 			//Check if the person is a group head and if they are print the person/group predicate to the file.
 			if(!people.get(i).getGroupHead().equals("None"))
-				SysiphusI.output.print("heads-group(" + people.get(i).getName() + ", " + people.get(i).getGroup() + ")" + "\n");
-			
+				SisyphusI.output.print("heads-group(" + people.get(i).getName() + ", " + people.get(i).getGroup() + ")" + "\n");
+			SisyphusI.output.print("\n");
 		}
 	}
 	
@@ -149,36 +150,38 @@ public class Solution
 		for(int i = 0;i < rooms.size(); i++)
 		{
 			//Print the room name predicate.
-			SysiphusI.output.print("room(" + rooms.get(i).getName() +")" + "\n");
+			SisyphusI.output.print("room(" + rooms.get(i).getName() +")" + "\n");
 			//Check the size of the room and print it.
 			if(!rooms.get(i).getSize().equals("None"))
 			{
 				//Check if the room is a small room.
 				if(rooms.get(i).getSize().equals("small"))
 				{
-					SysiphusI.output.print("small-room (" + rooms.get(i).getName() +")" + "\n");
+					SisyphusI.output.print("small-room (" + rooms.get(i).getName() +")" + "\n");
 				}
 				//Check if the room is a medium room.
 				if(rooms.get(i).getSize().equals("medium"))
 				{
-					SysiphusI.output.print("medium-room (" + rooms.get(i).getName() +")" + "\n");
+					SisyphusI.output.print("medium-room (" + rooms.get(i).getName() +")" + "\n");
 				}
 				//Check if the room is a large room.
 				if(rooms.get(i).getSize().equals("large"))
 				{
-					SysiphusI.output.print("large-room (" + rooms.get(i).getName() +")" + "\n");
+					SisyphusI.output.print("large-room (" + rooms.get(i).getName() +")" + "\n");
 				}
 			}
 			//Check to see if the room is close to any other rooms and if so print out all of the close rooms.
 			if(!rooms.get(i).getClose().isEmpty())
 			{
-				SysiphusI.output.print("close(" + rooms.get(i).getName() + " {");
+				SisyphusI.output.print("close(" + rooms.get(i).getName() + ", {");
 				//Loop to print out the list of people the current person works with.
-				for(int j = 0; j < rooms.get(i).getClose().size() - 1; j++)
+				int j = 0;
+				for(j = 0; j < rooms.get(i).getClose().size() - 1; j++)
 				{
-					SysiphusI.output.print(rooms.get(i).getClose().get(j) + ", ")
+					SisyphusI.output.print(rooms.get(i).getClose().get(j) + ", ");
 				}
-				SysiphusI.output.print(rooms.get(i).getClose().get(j) + "})" + "/n");
+				SisyphusI.output.print(rooms.get(i).getClose().get(j) + "})" + "\n");
+				SisyphusI.output.print("\n");
 			}
 		}
 	}
@@ -188,8 +191,10 @@ public class Solution
 		//Loop to go through and print all of the group predicates to the file.
 		for(int i = 0;i < groups.size(); i++)
 		{
+			SisyphusI.output.print("\n");
+			System.out.println(groups.size());
 			//Print the group name predicate.
-			SysiphusI.output.print("group(" + groups.get(i).getName() +")" + "\n");
+			SisyphusI.output.print("group(" + groups.get(i).getName() +")" + "\n");
 		}
 	}
 	
@@ -198,12 +203,14 @@ public class Solution
 		//Loop to go through and print all of the project predicates to the file.
 		for(int i = 0;i < projects.size(); i++)
 		{
+			SisyphusI.output.print("\n");
+
 			//Print the group name predicate.
-			SysiphusI.output.print("projects(" + projects.get(i).getName() +")" + "\n");
+			SisyphusI.output.print("project(" + projects.get(i).getName() +")" + "\n");
 			//Check to see if the group is a large group.
-			if(!projects.get(i).getSize().equals("None"))
+			if(projects.get(i).getLarge())
 			{
-				SysiphusI.output.print("large-project (" + projects.get(i).getName() +")" + "\n");
+				SisyphusI.output.print("large-project (" + projects.get(i).getName() +")" + "\n");
 			}
 		}
 	}

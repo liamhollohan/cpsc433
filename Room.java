@@ -15,7 +15,7 @@ public class Room
 	public Room(String name)
 	{
 		this.name = name;
-		this.size = "none";
+		this.size = "None";
 	}
 	
 	public void setName(String name)

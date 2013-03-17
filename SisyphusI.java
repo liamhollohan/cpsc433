@@ -30,24 +30,8 @@ public class SisyphusI {
 		}
 		catch (Exception ex) {traceFile = null;}
 
-		/*if (args.length>=2) {
-			long runtime = DEFAULT_MAX_TIME;
-			if (args.length<3) {
-				printSynopsis();
-				println("No run time given; assuming run time of "+runtime+" seconds");
-			}
-			else {
-				runtime = new Long(args[2]).longValue();
-			}
-
-			//Read input file
-			PredicateReader prI = new PredicateReader(args[0]);
-			Environment envI = new Environment(prI);
-			envI.fromFile(args[0]);
-			
-			
-		}
-		else*/ if (args.length <= 2) {
+		if (args.length <= 2 && args.length != 0) 
+		{
 			String outfile = makeOutfilename(args[0]);
 			try {
 				output = new PrintStream(new FileOutputStream(outfile));
@@ -56,13 +40,17 @@ public class SisyphusI {
 			PredicateReader prI = new PredicateReader(args[0]);
 			Environment envI = new Environment(prI);
 			envI.fromFile(args[0]);
-			
+			Solution.printPeople(envI.getPeople());
+			Solution.printRooms(envI.getRooms());
+			Solution.printGroups(envI.getGroups());
+			Solution.printProjects(envI.getProjects());
 			
 		}
 		else { // go into "command mode" if there's nothing on the command line
-			//Environment env = new Environment();
+			PredicateReader pr = new PredicateReader("");
+			Environment env = new Environment(pr);
 			printSynopsis();
-			//commandMode(env);
+			commandMode(env);
 		}
 
 		if (traceFile!=null) {
