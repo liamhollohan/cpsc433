@@ -136,10 +136,10 @@ public class Solution
 			}
 			//Check if the person is a project head and if they are print the person/project predicate to the file.
 			if(!people.get(i).getProjectHead().equals("None"))
-				SisyphusI.output.print("heads-project(" + people.get(i).getName() + ", " + people.get(i).getProject() + ")" + "\n");
+				SisyphusI.output.print("heads-project(" + people.get(i).getName() + ", " + people.get(i).getProjectHead() + ")" + "\n");
 			//Check if the person is a group head and if they are print the person/group predicate to the file.
 			if(!people.get(i).getGroupHead().equals("None"))
-				SisyphusI.output.print("heads-group(" + people.get(i).getName() + ", " + people.get(i).getGroup() + ")" + "\n");
+				SisyphusI.output.print("heads-group(" + people.get(i).getName() + ", " + people.get(i).getGroupHead() + ")" + "\n");
 			SisyphusI.output.print("\n");
 		}
 	}

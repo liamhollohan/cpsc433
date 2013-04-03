@@ -451,12 +451,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the group they head.
-			assert_("person(" + p + ")");
+			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
-			newPerson.setGroupHead(grp);
 			//Add the new person to both our lists.
 			people.add(newPerson);
 			peopleNames.add(p);
+			newPerson.setGroupHead(grp);
 		}
 		//Check to see if the group already exists.
 		if (!groupNames.contains(grp))
@@ -489,13 +489,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		//Check to see if the person already exists.
 		if(peopleNames.contains(p))
 		{
-			//Loop to search for the person.
+			//Loop to find the person in the list of people supplied in the input file.
 			for (int i = 0; i<people.size(); i++)
 			{
 				//Check the persons name.
 				if (people.get(i).getName().equals(p))
 				{
-					//Set this person as a project head
+					//Set the project name for this person.
 					people.get(i).setProjectHead(prj);
 					break;
 				}
@@ -503,18 +503,17 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//Person doesn't exist yet so create the person and set their name and set the project they head.
-			assert_("person(" + p + ")");
+			//Person doesn't exist yet so create the person and set their name and set the project field to true.
+			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
-			newPerson.setProjectHead(prj);
-			//Add the new person to both our lists.
 			people.add(newPerson);
 			peopleNames.add(p);
+			newPerson.setProjectHead(prj);
 		}
-		//Check to see if the project already exists
+		//Check to see if the project already exists.
 		if (!projectNames.contains(prj))
 		{
-			//If not, add it to both our lists.
+			//If not, add it.
 			Project newProject = new Project(prj);
 			projects.add(newProject);
 			projectNames.add(prj);

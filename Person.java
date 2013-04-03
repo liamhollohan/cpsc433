@@ -13,8 +13,8 @@ public class Person {
 	private String project;
 	private String group;
 	private ArrayList<String> worksWith = new ArrayList<String>();
-	private String projectHead = "None";
-	private String groupHead = "None";
+	private String projectHead;
+	private String groupHead;
 	private Boolean assigned;
 	private Room room;
 
