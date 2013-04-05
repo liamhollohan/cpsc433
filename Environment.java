@@ -40,6 +40,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		assignment.clear();
 	}
 	
+	public ArrayList<String> getPeopleNames()
+	{
+		return peopleNames;
+	}
+	
+	public ArrayList<String> getRoomNames()
+	{
+		return roomNames;
+	}
+	
 	public ArrayList<Tuple> getAssignment()
 	{
 		return assignment;
@@ -630,63 +640,21 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	//output file.																									 *
 	//****************************************************************************************************************
 	public void a_assign_to(String p, String room) throws Exception 
-	{
-		//Boolean to check if the room already exists in the list of room/people pairs.
-		boolean exists = false;
-		//Loop to check the list of already instantiated rooms in the list of rooms.
-		for (int i = 0; i < assignment.size(); i++)
-		{
-			//Check to see if the room matches a room already in the list.
-			if (assignment.get(i).getRoom().equals(room))
-			{
-				exists = true;
-				//Add the person in the assignment line to the room.  Don't add a duplicate room.
-				assignment.get(i).setPeople(p);
-				break;
-			}
-		}
-		//Check if the room didn't exist in the list.
-		if (!exists)
-		{
-			assert_("room(" + room + ")");
-			//If no match was found in the list of rooms, create a new tuple with the first element being the specified room and
-			//the second element being the person being assigned to the room.
-			Tuple t = new Tuple(room, p);
-			assignment.add(t);
-		}
-		if (!peopleNames.contains(p))
-		{
-			assert_("person(" + p + ")");
-		}
+	{	
+		int roomIndex = roomNames.indexOf(room);
+		int personIndex = peopleNames.indexOf(p);
 		
-		//For testing:
-		/*for (int i=0;i<assignment.size();i++)
-		{
-			System.out.println(assignment.get(i).getRoom());
-			ArrayList<String> x = assignment.get(i).getPeople();
-			for (int j = 0; j < x.size(); j++)
-			{
-				System.out.println(x.get(j));
-			}
-		}
-		for (int i=0;i<people.size();i++)
-		{
-			System.out.println(people.get(i).getName());
-		}*/
+		assignment.add(new Tuple(rooms.get(roomIndex), people.get(personIndex)));
 	}
 
 	@Override
-	public boolean e_assign_to(String p, String room) {
-		//Loop to find the person in the list of people supplied in the input file.
-		for (int i = 0; i<people.size(); i++)
-		{
-			//Check the persons name.
-			if (people.get(i).getName().equals(p))
-			{
-				return people.get(i).getRoom().getName().equals(room);
-			}
-		}
-		return false;
+	public boolean e_assign_to(String p, String room) 
+	{
+		int roomIndex = roomNames.indexOf(room);
+		int personIndex = peopleNames.indexOf(p);
+		Tuple check = new Tuple(rooms.get(roomIndex), people.get(personIndex));
+		
+		return assignment.contains(check);
 	}
 
 	@Override
