@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 public class OTreeNode implements Comparable<OTreeNode> {
     private ArrayList<Tuple> assignment = new ArrayList<Tuple>();
-    private ArrayList<Room> remaining = new ArrayList<Room>();
-    
+    private ArrayList<Room> remainingRooms = new ArrayList<Room>();
+    private ArrayList<Person> remainingPeople = new ArrayList<Person>();
     private Environment env;
     
     private float utility = -1;
@@ -15,34 +15,58 @@ public class OTreeNode implements Comparable<OTreeNode> {
     public OTreeNode(Environment env) {
         this.env = env;
         
-        //All the rooms are added to the remaining list
+        //All the rooms are added to the remainingRoom list
         ArrayList<Room> rooms = env.getRooms();
         for (int i = 0; i < rooms.size(); i++)
-        {
-        	remaining.add(rooms.get(i));
-        }
+        	remainingRooms.add(rooms.get(i));
+        
+        //All the people are added to the remainingPeople list
+        ArrayList<Person> people = env.getPeople();
+        for (int i = 0; i < people.size(); i++)
+        	remainingPeople.add(people.get(i));
     }
     
     //Create children node
-    public OTreeNode(Environment env, ArrayList<Tuple> assignment, ArrayList<Room> remaining) {
+    public OTreeNode(Environment env, ArrayList<Tuple> assignment, ArrayList<Room> remainingRooms, ArrayList<Person> remainingPeople) {
         this.env = env;
         this.assignment = assignment;
-        this.remaining = remaining;
+        this.remainingRooms = remainingRooms;
+        this.remainingPeople = remainingPeople;
     }
     
     public OTreeNode[] Branch() {
-        OTreeNode[] children = new OTreeNode[remaining.size()];
+        OTreeNode[] children = new OTreeNode[remainingRooms.size()];
         
-        if (remaining.size() == 1) {
-            int childPath[] = Arrays.copyOf(path, path.length + 2);
-            childPath[childPath.length - 2] = remaining[0];
-            childPath[childPath.length - 1] = 0;
+        //If there is only one room remaining
+        if (remainingRooms.size() == 1) {
+        	ArrayList<Tuple> childAssignment;
+        	//copy the previously computed assignments into the new branch
+        	for (int i = 0; i < assignment.size(); i++)
+        	{
+        		childAssignment.add(assignment.get(i));
+        	}
+        	//add the remaining people to the one remaining room
+        	for (int i = 0; i < remainingPeople.size(); i++)
+        	{
+        		Tuple t = new Tuple(remainingRooms.get(0), remainingPeople.get(i));
+        		remainingPeople.remove(i);
+        		childAssignment.add(t);
+        	}
+            remainingRooms.remove(0);
+            //Error Checking: Empty remainingRooms and remainingPeople lists
+            if (!remainingRooms.isEmpty() || !remainingPeople.isEmpty())
+            	System.out.println(" -> Error: Final solution is not removing final element properly.");
             
-            children[0] = new OTreeNode(env, childPath, new int[0]);
+            children[0] = new OTreeNode(env, childAssignment, remainingRooms, remainingPeople);
         } else {
-            for (int i = 0; i < remaining.length; i++) {
-                int childPath[] = Arrays.copyOf(path, path.length + 1);
-                childPath[childPath.length - 1] = remaining[i];
+            for (int i = 0; i < remainingRooms.size(); i++) {
+                ArrayList<Tuple> childAssignment;
+            	for (int j = 0; j < assignment.size(); j++)
+            	{
+            		childAssignment.add(assignment.get(j));
+            	}
+            	Tuple t = new Tuple(remainingRooms.get(0));
+                childAssignment.add();
                 
                 int childRemaining[] = new int[remaining.length - 1];
                 for (int j = 0, k = 0; j < remaining.length; j++) {

@@ -9,15 +9,26 @@ public class Room
 {
 	private String name;
 	private String size;
-	private Person[] people;
+	private int numAssigned = 0;
 	private ArrayList<String> close = new ArrayList<String>();
 	
 	public Room(String name)
 	{
 		this.name = name;
 		this.size = "None";
+		this.numAssigned = 0;
 	}
 	
+	public int getNumAssigned() 
+	{
+		return numAssigned;
+	}
+
+	public void setNumAssigned(int numAssigned) 
+	{
+		this.numAssigned = numAssigned;
+	}
+
 	public void setName(String name)
 	{
 		this.name = name;
@@ -36,16 +47,6 @@ public class Room
 	public String getSize()
 	{
 		return this.size;
-	}
-	
-	public void setPeople(Person[] people)
-	{
-		this.people = people;
-	}
-	
-	public Person[] getPeople()
-	{
-		return this.people;
 	}
 	
 	public ArrayList<String> getClose()
