@@ -43,6 +43,22 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		assignment.clear();
 	}
 	
+	public static ArrayList<Room> getRefRooms() {
+		return refRooms;
+	}
+
+	public static void setRefRooms(ArrayList<Room> refRooms) {
+		Environment.refRooms = refRooms;
+	}
+
+	public static ArrayList<Person> getRefPeople() {
+		return refPeople;
+	}
+
+	public static void setRefPeople(ArrayList<Person> refPeople) {
+		Environment.refPeople = refPeople;
+	}
+	
 	public ArrayList<String> getPeopleNames()
 	{
 		return peopleNames;

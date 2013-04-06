@@ -40,6 +40,13 @@ public class SisyphusI {
 			PredicateReader prI = new PredicateReader(args[0]);
 			Environment envI = new Environment(prI);
 			envI.fromFile(args[0]);
+			
+			//=============Begin OTree Computation==================
+			
+			
+			
+			//=============End OTree Computation====================
+			
 			Solution.printPeople(envI.getPeople());
 			Solution.printRooms(envI.getRooms());
 			Solution.printGroups(envI.getGroups());
@@ -91,7 +98,7 @@ public class SisyphusI {
 	}
 	
 	/**
-	 * Implment "command mode": repeatedly read lines of predictes
+	 * Implement "command mode": repeatedly read lines of predicates
 	 * from {@link System#in} and either assert them (if the line starts
 	 * with a "!") or evaluate them (and return "true" or "false" to
 	 * {@link System#out}. 
