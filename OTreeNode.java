@@ -2,6 +2,7 @@ package cpsc433;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class OTreeNode implements Comparable<OTreeNode> {
     private ArrayList<Tuple> assignment = new ArrayList<Tuple>();
@@ -9,7 +10,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
     private ArrayList<Person> remainingPeople = new ArrayList<Person>();
     private Environment env;
     
-    private float utility = -1;
+    private float assignmentUtility = -1;
     
     //create root node
     public OTreeNode(Environment env) {
@@ -58,24 +59,28 @@ public class OTreeNode implements Comparable<OTreeNode> {
             	System.out.println(" -> Error: Final solution is not removing final element properly.");
             
             children[0] = new OTreeNode(env, childAssignment, remainingRooms, remainingPeople);
-        } else {
-            for (int i = 0; i < remainingRooms.size(); i++) {
+        } 
+        else //there is more than one room left to assign
+        {
+            for (int i = 0; i < remainingRooms.size(); i++) 
+            {
                 ArrayList<Tuple> childAssignment;
-            	for (int j = 0; j < assignment.size(); j++)
+            	//Copy over parent assignment to child
+                for (int j = 0; j < assignment.size(); j++)
             	{
             		childAssignment.add(assignment.get(j));
             	}
-            	Tuple t = new Tuple(remainingRooms.get(0));
-                childAssignment.add();
-                
-                int childRemaining[] = new int[remaining.length - 1];
-                for (int j = 0, k = 0; j < remaining.length; j++) {
-                    if (j != i) {
-                        childRemaining[k++] = remaining[j];
-                    }
-                }
-                
-                children[i] = new OTreeNode(env, childPath, childRemaining);
+                //Choose a random person to assign to the room.
+                Random rand = new Random();
+                int x = rand.nextInt() % remainingPeople.size();
+            	Tuple t = new Tuple(remainingRooms.get(i),remainingPeople.get(x));
+                childAssignment.add(t);
+                remainingPeople.remove(x);
+
+                if (remainingRooms.get(i).isFull())
+                	remainingRooms.remove(i);
+
+                children[i] = new OTreeNode(env, childAssignment, remainingRooms, remainingPeople);
             }
         }
         
@@ -83,15 +88,11 @@ public class OTreeNode implements Comparable<OTreeNode> {
     }
     
     private float getPathUtility() {
-        if (pathUtility < 0) {
-            pathUtility = 0;
-            
-            for (int i = 0; i < path.length - 1; i++) {
-                pathUtility += env.getDist(path[i], path[i+1]);
-            }
+        if (assignmentUtility < 0) {
+            assignmentUtility = 0;
         }
         
-        return pathUtility;
+        return assignmentUtility;
     }
     
     public float getUtility() {
@@ -140,15 +141,21 @@ public class OTreeNode implements Comparable<OTreeNode> {
     }
     
     public String toString() {
-        String retStr = "P: <";
+        String retStr = "A: <";
         
-        for (int i = 0; i < path.length; i++)
-            retStr += (i != 0 ? "," : "") + path[i];
+        for (int i = 0; i < assignment.size(); i++)
+            retStr += (i != 0 ? "," : "") + assignment.get(i);
         
-        retStr += ">, R: {";
+        retStr += ">, R-rooms: {";
         
-        for (int i = 0; i < remaining.length; i++) 
-            retStr += (i != 0 ? "," : "" ) + remaining[i];
+        for (int i = 0; i < remainingRooms.size(); i++) 
+            retStr += (i != 0 ? "," : "" ) + remainingRooms.get(i);
+        
+        
+        retStr += "}, R-people: {";
+        
+        for (int i = 0; i < remainingPeople.size(); i++) 
+            retStr += (i != 0 ? "," : "" ) + remainingPeople.get(i);
         
         retStr += "}";
         
