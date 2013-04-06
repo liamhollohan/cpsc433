@@ -17,6 +17,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	private static ArrayList<Room> rooms = new ArrayList<Room>();
 
 	private static ArrayList<Room> refRooms = new ArrayList<Room>();
+	private static ArrayList<Person> refPeople = new ArrayList<Person>();
 	
 	private static ArrayList<Tuple> assignment = new ArrayList<Tuple>();
 	
@@ -643,10 +644,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	//****************************************************************************************************************
 	public void a_assign_to(String p, String room) throws Exception 
 	{	
-		int roomIndex = roomNames.indexOf(room);
-		int personIndex = peopleNames.indexOf(p);
+		//int roomIndex = rooms.indexOf(room);
+		//int personIndex = peopleNames.indexOf(p);
 		
-		assignment.add(new Tuple(rooms.get(roomIndex), people.get(personIndex)));
+		//assignment.add(new Tuple(rooms.get(roomIndex), people.get(personIndex)));
 	}
 
 	@Override
