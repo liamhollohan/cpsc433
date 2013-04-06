@@ -46,7 +46,7 @@ protected Vector<Pair<ParamType,Object>> params = new Vector<Pair<ParamType,Obje
  * @throws ParseException thrown if the string is malformed.
  */
 Predicate(String s) throws ParseException { 
-	System.out.println(" -> PREDICATE "+ s);
+	//System.out.println(" -> PREDICATE "+ s);
     int openParen = scanFor(s,0,"(");
 	if (openParen == -1) { //assume a 0-ary predicate (which defaults to 1 unary with an empty string)
 		openParen = s.length();

@@ -658,7 +658,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	//a_assign_to is a method which creates the list of tuples that represents the solution as specified in the 	 *
 	//output file.																									 *
 	//****************************************************************************************************************
-	public void a_assign_to(String p, String room) throws Exception 
+	public void a_assign_to(String p, String room) 
 	{	
 		int personIndex = -1;
 		int roomIndex = -1;

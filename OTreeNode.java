@@ -38,7 +38,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
         this.remainingPeople = remainingPeople;
     }
     
-    public OTreeNode[] Branch() {
+    public OTreeNode[] Branch() throws Exception {
         OTreeNode[] children = new OTreeNode[remainingRooms.size()];
         ArrayList<Tuple> childAssignment = new ArrayList<Tuple>();
         
@@ -63,9 +63,26 @@ public class OTreeNode implements Comparable<OTreeNode> {
             
             children[0] = new OTreeNode(env, childAssignment, remainingRooms, remainingPeople);
         } 
+        //There is only one person remaining
+        else if (remainingPeople.size() == 1)
+        {
+        	System.out.println(" -> rPeople.size() = 1");
+        	//copy the parent assignments
+        	for (int i = 0; i < assignment.size(); i++)
+        	{
+        		childAssignment.add(assignment.get(i));
+        	}
+        	
+        	//place the person in the room that will result in the lowest utility
+        	Random rand = new Random();
+        	int x = Math.abs(rand.nextInt() % remainingRooms.size());
+        	Tuple t = new Tuple(remainingRooms.get(x), remainingPeople.get(0));
+        	childAssignment.add(t);
+        	
+        }
         else //there is more than one room left to assign
         {
-            for (int i = 0; i < remainingRooms.size(); i++) 
+        	for (int i = 0; i < remainingRooms.size(); i++) 
             {
             	//Copy over parent assignment to child
                 for (int j = 0; j < assignment.size(); j++)
@@ -80,6 +97,11 @@ public class OTreeNode implements Comparable<OTreeNode> {
                 	Random rand = new Random();
                 	x = Math.abs(rand.nextInt() % remainingPeople.size());
                 }	
+                
+                System.out.println("remainingRooms.size() = " + remainingRooms.size());
+                System.out.println("remainingPeople.size() = " + remainingPeople.size());
+                System.out.println("new Tuple(remainingRooms.get("+i+"), remainingPeople.get("+x+"));");
+                env.a_assign_to(remainingPeople.get(x).getName(), remainingRooms.get(i).getName());
                 Tuple t = new Tuple(remainingRooms.get(i),remainingPeople.get(x));
                 
                 childAssignment.add(t);
