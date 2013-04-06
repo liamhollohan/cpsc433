@@ -37,10 +37,10 @@ public class OTreeNode implements Comparable<OTreeNode> {
     
     public OTreeNode[] Branch() {
         OTreeNode[] children = new OTreeNode[remainingRooms.size()];
+        ArrayList<Tuple> childAssignment = null;
         
         //If there is only one room remaining
         if (remainingRooms.size() == 1) {
-        	ArrayList<Tuple> childAssignment;
         	//copy the previously computed assignments into the new branch
         	for (int i = 0; i < assignment.size(); i++)
         	{
@@ -64,7 +64,6 @@ public class OTreeNode implements Comparable<OTreeNode> {
         {
             for (int i = 0; i < remainingRooms.size(); i++) 
             {
-                ArrayList<Tuple> childAssignment;
             	//Copy over parent assignment to child
                 for (int j = 0; j < assignment.size(); j++)
             	{
@@ -98,24 +97,25 @@ public class OTreeNode implements Comparable<OTreeNode> {
     public float getUtility() {
         float utility = getPathUtility();
         
-        if (remaining.length > 0) {
+        //Predict the future utility
+        /*if (remaining.length > 0) {
             utility += env.getAvgDist() * 0.4 * (remaining.length + 1);
-        }
+        }*/
         
         return utility;
     }
     
     public boolean isComplete() {
-        return remaining.length == 0;
+        return remainingRooms.size() == 0 && remainingPeople.size() == 0;
     }
     
-    public int getPathLength() {
+   /* public int getPathLength() {
         return path.length;
-    }
+    }*/
     
-    public int getPathPoint(int i) {
+    /*public int getPathPoint(int i) {
         return path[i];
-    }
+    }*/
     
     @Override
     public int compareTo(OTreeNode other) {
@@ -131,7 +131,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
         
         OTreeNode otherNode = (OTreeNode) obj;
         
-        if (otherNode.getPathLength() != getPathLength()) return false;
+        //if (otherNode.getPathLength() != getPathLength()) return false;
         
         for (int i = 0; i < path.length; i++) {
             if (path[i] != otherNode.getPathPoint(i)) return false;

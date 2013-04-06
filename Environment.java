@@ -53,16 +53,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		return roomNames;
 	}
 	
-	public ArrayList<String> getPeopleNames()
-	{
-		return peopleNames;
-	}
-	
-	public ArrayList<String> getRoomNames()
-	{
-		return roomNames;
-	}
-	
 	public ArrayList<Tuple> getAssignment()
 	{
 		return assignment;
