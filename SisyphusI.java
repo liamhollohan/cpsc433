@@ -3,6 +3,8 @@ package cpsc433;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
+import cpsc433.OTreeNode;
+
 public class SisyphusI {
 	
 	private static final long DEFAULT_MAX_TIME = 30000;
@@ -43,14 +45,32 @@ public class SisyphusI {
 			
 			//=============Begin OTree Computation==================
 			
-			
-			
+			OTree tree = new OTree(envI);
+
+			OTreeNode bestSol = null;
+
+			long startTime = System.currentTimeMillis();
+			int transCount = 0;
+
+			for (;;transCount++) {
+	            tree.Transition();
+	            
+	            OTreeNode newBest = tree.getBestSol();
+	            
+	            if (newBest != null && !newBest.equals(bestSol)) {
+	                bestSol = newBest;
+	                System.out.println("New Best [" + transCount + "] : " + bestSol.toString() + ":" + bestSol.getUtility());
+	            }
+	            
+	            if ((System.currentTimeMillis() - startTime) > 5000000) break;
+			}
+			System.out.println("# of Transitions: " + transCount);
 			//=============End OTree Computation====================
 			
-			Solution.printPeople(envI.getPeople());
-			Solution.printRooms(envI.getRooms());
-			Solution.printGroups(envI.getGroups());
-			Solution.printProjects(envI.getProjects());
+			//Solution.printPeople(envI.getPeople());
+			//Solution.printRooms(envI.getRooms());
+			//Solution.printGroups(envI.getGroups());
+			//Solution.printProjects(envI.getProjects());
 			
 		}
 		else { // go into "command mode" if there's nothing on the command line

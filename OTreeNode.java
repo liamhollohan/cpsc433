@@ -3,6 +3,7 @@ package cpsc433;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class OTreeNode implements Comparable<OTreeNode> {
     private ArrayList<Tuple> assignment = new ArrayList<Tuple>();
     private ArrayList<Room> remainingRooms = new ArrayList<Room>();
@@ -13,7 +14,10 @@ public class OTreeNode implements Comparable<OTreeNode> {
     
     //create root node
     public OTreeNode(Environment env) {
-        this.env = env;
+        
+    	System.out.println(" -> Creating the root node!");
+    	
+    	this.env = env;
         
         //All the rooms are added to the remainingRoom list
         ArrayList<Room> rooms = env.getRooms();
@@ -36,7 +40,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
     
     public OTreeNode[] Branch() {
         OTreeNode[] children = new OTreeNode[remainingRooms.size()];
-        ArrayList<Tuple> childAssignment = null;
+        ArrayList<Tuple> childAssignment = new ArrayList<Tuple>();
         
         //If there is only one room remaining
         if (remainingRooms.size() == 1) {
@@ -68,10 +72,16 @@ public class OTreeNode implements Comparable<OTreeNode> {
             	{
             		childAssignment.add(assignment.get(j));
             	}
-                //Choose a random person to assign to the room.
-                Random rand = new Random();
-                int x = rand.nextInt() % remainingPeople.size();
-            	Tuple t = new Tuple(remainingRooms.get(i),remainingPeople.get(x));
+                
+                int x = 0;
+                if (remainingPeople.size() > 0)
+                {
+                	//Choose a random person to assign to the room.
+                	Random rand = new Random();
+                	x = Math.abs(rand.nextInt() % remainingPeople.size());
+                }	
+                Tuple t = new Tuple(remainingRooms.get(i),remainingPeople.get(x));
+                
                 childAssignment.add(t);
                 remainingPeople.remove(x);
 
