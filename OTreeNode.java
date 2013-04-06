@@ -1,7 +1,6 @@
 package cpsc433;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class OTreeNode implements Comparable<OTreeNode> {
@@ -109,19 +108,24 @@ public class OTreeNode implements Comparable<OTreeNode> {
         return remainingRooms.size() == 0 && remainingPeople.size() == 0;
     }
     
-   /* public int getPathLength() {
-        return path.length;
-    }*/
+    public ArrayList<Room> getRemainingRooms()
+    {
+    	return remainingRooms;
+    }
     
-    /*public int getPathPoint(int i) {
-        return path[i];
-    }*/
+    public ArrayList<Person> getRemainingPeople()
+    {
+    	return remainingPeople;
+    }
     
     @Override
     public int compareTo(OTreeNode other) {
         return Float.compare(getUtility(), other.getUtility());
     }
     
+    /**
+     * @param : obj (OTreeNode object that will be compared with this instance of OTreeNode
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
@@ -133,8 +137,32 @@ public class OTreeNode implements Comparable<OTreeNode> {
         
         //if (otherNode.getPathLength() != getPathLength()) return false;
         
-        for (int i = 0; i < path.length; i++) {
-            if (path[i] != otherNode.getPathPoint(i)) return false;
+        //Get the list of remaining rooms from the other node
+        ArrayList<Room> otherRemainingRooms = otherNode.getRemainingRooms();
+        
+        //check to make sure their sizes are the same
+        if (otherRemainingRooms.size() != remainingRooms.size())
+        	return false;
+
+        //loop through the entire list to make sure every element of the list is the same
+        for (int i = 0; i < remainingRooms.size(); i++)
+        {
+        	if (remainingRooms.get(i) != otherRemainingRooms.get(i))
+        		return false;
+        }
+        
+        //Get the list of remaining people from the other node
+        ArrayList<Person> otherRemainingPeople = otherNode.getRemainingPeople();
+        
+        //Check to make sure their sizes are the same
+        if (otherRemainingPeople.size() != remainingPeople.size())
+        	return false;
+        
+        //Loop through the entire list to make sure every element of the list is the same
+        for (int i = 0; i < remainingPeople.size(); i++)
+        {
+        	if (remainingPeople.get(i) != otherRemainingPeople.get(i))
+        		return false;
         }
         
         return true;
