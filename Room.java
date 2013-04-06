@@ -11,12 +11,14 @@ public class Room
 	private String size;
 	private int numAssigned = 0;
 	private ArrayList<String> close = new ArrayList<String>();
+	private boolean isFull = false;
 	
 	public Room(String name)
 	{
 		this.name = name;
 		this.size = "None";
 		this.numAssigned = 0;
+		this.isFull = false;
 	}
 	
 	public int getNumAssigned() 
@@ -58,5 +60,13 @@ public class Room
 	{
 		if (!this.close.contains(close))
 			this.close.add(close);
+	}
+
+	public boolean isFull() {
+		return isFull;
+	}
+
+	public void setFull(boolean isFull) {
+		this.isFull = isFull;
 	}
 }
