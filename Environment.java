@@ -53,6 +53,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		return roomNames;
 	}
 	
+	public ArrayList<String> getPeopleNames()
+	{
+		return peopleNames;
+	}
+	
+	public ArrayList<String> getRoomNames()
+	{
+		return roomNames;
+	}
+	
 	public ArrayList<Tuple> getAssignment()
 	{
 		return assignment;
@@ -644,10 +654,36 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	//****************************************************************************************************************
 	public void a_assign_to(String p, String room) throws Exception 
 	{	
-		//int roomIndex = rooms.indexOf(room);
-		//int personIndex = peopleNames.indexOf(p);
+		int personIndex = -1;
+		int roomIndex = -1;
+		for(int i = 0; i < refPeople.size(); i++)
+		{
+			if(refPeople.get(i).getName().equals(p))
+			{
+				personIndex = i;
+				break;
+			}
+		}
+		for(int j = 0; j < refRooms.size(); j++)
+		{
+			if(refRooms.get(j).getName().equals(room))
+			{
+				roomIndex = j;
+				break;
+			}
+		}
+		if(refPeople.get(personIndex).getManager() || !refPeople.get(personIndex).getGroupHead().equals("None") || !refPeople.get(personIndex).getProjectHead().equals("None"))
+			refRooms.get(roomIndex).setFull(true);
+		else if(refRooms.get(roomIndex).getNumAssigned() == 1)
+		{
+			refRooms.get(roomIndex).setFull(true);
+			refRooms.get(roomIndex).setNumAssigned(rooms.get(roomIndex).getNumAssigned() + 1);
+		}
+		else
+			refRooms.get(roomIndex).setNumAssigned(rooms.get(roomIndex).getNumAssigned() + 1);
 		
-		//assignment.add(new Tuple(rooms.get(roomIndex), people.get(personIndex)));
+		
+		assignment.add(new Tuple(refRooms.get(roomIndex), refPeople.get(personIndex)));
 	}
 
 	@Override
