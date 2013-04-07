@@ -38,8 +38,10 @@ public class OTreeNode implements Comparable<OTreeNode> {
         this.remainingPeople = remainingPeople;
     }
     
-    public OTreeNode[] Branch() throws Exception {
-        OTreeNode[] children = new OTreeNode[remainingRooms.size()];
+    public OTreeNode[] Branch() 
+    {
+        //create a new array of children (One child per room remaining)
+    	OTreeNode[] children = new OTreeNode[remainingRooms.size()];
         ArrayList<Tuple> childAssignment = new ArrayList<Tuple>();
         
         //If there is only one room remaining
@@ -64,7 +66,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
             children[0] = new OTreeNode(env, childAssignment, remainingRooms, remainingPeople);
         } 
         //There is only one person remaining
-        else if (remainingPeople.size() == 1)
+        /*else if (remainingPeople.size() == 1)
         {
         	System.out.println(" -> rPeople.size() = 1");
         	//copy the parent assignments
@@ -79,9 +81,21 @@ public class OTreeNode implements Comparable<OTreeNode> {
         	Tuple t = new Tuple(remainingRooms.get(x), remainingPeople.get(0));
         	childAssignment.add(t);
         	
-        }
+        }*/
         else //there is more than one room left to assign
         {
+        	//choose a random remainingPerson to assign to a room
+        	int x = 0;
+            Person p;
+        	if (remainingPeople.size() > 0) {
+            	//Choose a random person to assign to the room.
+            	Random rand = new Random();
+            	x = Math.abs(rand.nextInt() % remainingPeople.size());
+            	p = remainingPeople.get(x);
+            } else {
+            	p = remainingPeople.get(0);
+            }
+        	//loop through to create a new branch for every room
         	for (int i = 0; i < remainingRooms.size(); i++) 
             {
             	//Copy over parent assignment to child
@@ -90,19 +104,11 @@ public class OTreeNode implements Comparable<OTreeNode> {
             		childAssignment.add(assignment.get(j));
             	}
                 
-                int x = 0;
-                if (remainingPeople.size() > 0)
-                {
-                	//Choose a random person to assign to the room.
-                	Random rand = new Random();
-                	x = Math.abs(rand.nextInt() % remainingPeople.size());
-                }	
-                
                 System.out.println("remainingRooms.size() = " + remainingRooms.size());
                 System.out.println("remainingPeople.size() = " + remainingPeople.size());
                 System.out.println("new Tuple(remainingRooms.get("+i+"), remainingPeople.get("+x+"));");
-                env.a_assign_to(remainingPeople.get(x).getName(), remainingRooms.get(i).getName());
-                Tuple t = new Tuple(remainingRooms.get(i),remainingPeople.get(x));
+                env.a_assign_to(p.getName(), remainingRooms.get(i).getName());
+                Tuple t = new Tuple(remainingRooms.get(i),p);
                 
                 childAssignment.add(t);
                 remainingPeople.remove(x);

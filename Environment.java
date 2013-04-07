@@ -16,8 +16,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	private static ArrayList<String> roomNames = new ArrayList<String>();
 	private static ArrayList<Room> rooms = new ArrayList<Room>();
 
-	private static ArrayList<Room> refRooms = new ArrayList<Room>();
-	private static ArrayList<Person> refPeople = new ArrayList<Person>();
+	public static ArrayList<Room> refRooms = new ArrayList<Room>();
+	public static ArrayList<Person> refPeople = new ArrayList<Person>();
 	
 	private static ArrayList<Tuple> assignment = new ArrayList<Tuple>();
 	
