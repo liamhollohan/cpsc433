@@ -107,11 +107,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			//Add the persons name to the list of people.
 			peopleNames.add(p);
 		}
-		System.out.println(" -> peopleNames.size() = " + peopleNames.size());
+		/*System.out.println(" -> peopleNames.size() = " + peopleNames.size());
 		for (int i = 0; i < peopleNames.size(); i++)
 		{
 			System.out.println(" -> Names: " + peopleNames.get(i));
-		}
+		}*/
 	}
 
 	@Override

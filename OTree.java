@@ -17,6 +17,7 @@ public class OTree {
         leaves = new PriorityQueue<OTreeNode>();
         completed = new ArrayList<OTreeNode>();
         
+        //add the root node onto the tree 
         leaves.add(new OTreeNode(env));
     }
     
@@ -24,11 +25,11 @@ public class OTree {
         OTreeNode selectedLeaf = SelectLeaf();
         
         OTreeNode children[] = selectedLeaf.Branch();
-        
+        System.out.println(children.length);
         for (OTreeNode child : children) {
             if (child.isComplete()) {
                 completed.add(child);
-                
+
                 if (bestSol == null || child.getUtility() < bestSol.getUtility()) {
                     bestSol = child;
                 }

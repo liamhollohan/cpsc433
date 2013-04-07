@@ -21,13 +21,17 @@ public class OTreeNode implements Comparable<OTreeNode> {
         
         //All the rooms are added to the remainingRoom list
         ArrayList<Room> rooms = env.getRooms();
-        for (int i = 0; i < rooms.size(); i++)
+        for (int i = 0; i < rooms.size(); i++) {
         	remainingRooms.add(rooms.get(i));
+        	env.refRooms.add(rooms.get(i));
+        }
         
         //All the people are added to the remainingPeople list
         ArrayList<Person> people = env.getPeople();
-        for (int i = 0; i < people.size(); i++)
+        for (int i = 0; i < people.size(); i++) {
         	remainingPeople.add(people.get(i));
+        	env.refPeople.add(people.get(i));
+        }
     }
     
     //Create children node
@@ -92,8 +96,10 @@ public class OTreeNode implements Comparable<OTreeNode> {
             	Random rand = new Random();
             	x = Math.abs(rand.nextInt() % remainingPeople.size());
             	p = remainingPeople.get(x);
+            	remainingPeople.remove(x);
             } else {
             	p = remainingPeople.get(0);
+            	remainingPeople.remove(0);
             }
         	//loop through to create a new branch for every room
         	for (int i = 0; i < remainingRooms.size(); i++) 
@@ -111,7 +117,6 @@ public class OTreeNode implements Comparable<OTreeNode> {
                 Tuple t = new Tuple(remainingRooms.get(i),p);
                 
                 childAssignment.add(t);
-                remainingPeople.remove(x);
 
                 if (remainingRooms.get(i).isFull())
                 	remainingRooms.remove(i);
@@ -143,7 +148,9 @@ public class OTreeNode implements Comparable<OTreeNode> {
     }
     
     public boolean isComplete() {
-        return remainingRooms.size() == 0 && remainingPeople.size() == 0;
+    	if (remainingRooms.size() == 0 && remainingPeople.size() == 0)
+    		return true;
+    	else return false;
     }
     
     public ArrayList<Room> getRemainingRooms()
