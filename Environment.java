@@ -145,9 +145,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 					break;
 				}
 			}
-		}
-		else
-		{
+		} else {
 			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
 			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);

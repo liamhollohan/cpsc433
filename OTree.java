@@ -29,7 +29,7 @@ public class OTree {
             if (child.isComplete()) {
                 completed.add(child);
 
-                if (bestSol == null || child.getUtility() > bestSol.getUtility()) {
+                if (bestSol == null || child.getUtility() < bestSol.getUtility()) {
                     bestSol = child;
                 }
             } else {

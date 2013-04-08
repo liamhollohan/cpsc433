@@ -61,17 +61,20 @@ public class SisyphusI {
 	                System.out.println("####New Best [" + transCount + "] : " + bestSol.toString() + ":" + bestSol.getUtility());
 	            }
 	            
-	            if ((System.currentTimeMillis() - startTime) > 60000) break;
+	            if ((System.currentTimeMillis() - startTime) > 5000) break;
 			}
 			
-			//System.out.println("####New Best [" + transCount + "] : " + bestSol.toString() + ":" + bestSol.getUtility());
+			if (bestSol != null) {
+				System.out.println("Best Solution: " + bestSol.toString() + ":" + bestSol.getUtility());
+				for (int i = 0; i < bestSol.assignment.size(); i++) {
+					envI.a_assign_to(bestSol.assignment.get(i).getPerson().getName(), bestSol.assignment.get(i).getRoom().getName());
+				}
+			} else {
+				System.out.println(" -> ERROR: No solution found!");
+			}
 			System.out.println("# of Transitions: " + transCount);
-			//=============End OTree Computation====================
 			
-			//Solution.printPeople(envI.getPeople());
-			//Solution.printRooms(envI.getRooms());
-			//Solution.printGroups(envI.getGroups());
-			//Solution.printProjects(envI.getProjects());
+			//=============End OTree Computation====================
 			
 		}
 		else { // go into "command mode" if there's nothing on the command line

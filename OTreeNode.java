@@ -10,7 +10,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
     public ArrayList<Person> remainingPeople = new ArrayList<Person>();
     private Environment env;
     
-    private int utility = 1;
+    private int utility = 0;
     
     //create root node
     public OTreeNode(Environment env) {
@@ -54,7 +54,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
     		ArrayList<Tuple> childAssignment = new ArrayList<Tuple>();
     		ArrayList<Room> childRemainingRooms = new ArrayList<Room>();
     		ArrayList<Person> childRemainingPeople = new ArrayList<Person>();
-    		System.out.print(" -> Branch: ");
+    		//System.out.print(" -> Branch: ");
         	//Copy over parent assignment to child
             for (int j = 0; j < assignment.size(); j++) {
         		childAssignment.add(assignment.get(j));
@@ -68,27 +68,50 @@ public class OTreeNode implements Comparable<OTreeNode> {
         		childRemainingPeople.add(remainingPeople.get(j));
         	}
             
-            Tuple t = new Tuple(remainingRooms.get(i),p);
+            Tuple t = new Tuple(childRemainingRooms.get(i),p);
             childAssignment.add(t);
 
-            if (remainingRooms.get(i).isFull())
-            	remainingRooms.remove(i);
+            boolean isFull = checkFullRoom(childRemainingRooms.get(i), p);
+            
+            childRemainingRooms.get(i).setNumAssigned(childRemainingRooms.get(i).getNumAssigned()+1);
+            
+            if (isFull)
+            	childRemainingRooms.remove(i);
 
+            
+            int childUtility = utility;
             //Fake utility generator
-        	if (utility == 1) {
+        	if (utility == 0) {
                 Random rand = new Random();
-            	utility = Math.abs(rand.nextInt(100));
+            	childUtility = Math.abs(rand.nextInt(100));
         	} else {
                 Random rand = new Random();
-            	utility += Math.abs(rand.nextInt(10));
+            	childUtility += Math.abs(rand.nextInt(10));
         	}
-        	
-            children[i] = new OTreeNode(env, childAssignment, childRemainingRooms, childRemainingPeople, utility);
+        	childRemainingPeople.remove(p);
+            children[i] = new OTreeNode(env, childAssignment, childRemainingRooms, childRemainingPeople, childUtility);
         }
         return children;
     }
     
-    private Person randomPerson()
+    //Double check this method
+    private boolean checkFullRoom(Room room, Person p) {
+    	//int numAssigned = room.getNumAssigned();
+    	//room.setNumAssigned(numAssigned+1);
+    	//check if a manager is assigned to that room
+    	for (int i = 0; i < assignment.size(); i++)
+    	{
+    		if (assignment.get(i).getRoom().equals(room) && assignment.get(i).getPerson().getManager())
+    			return true; 
+    		else if (assignment.get(i).getRoom().getNumAssigned() > 1)
+    			return true;
+    		else if (p.getManager())
+    			return true;
+    	}
+		return false;
+	}
+
+	private Person randomPerson()
     {
     	//choose a random remainingPerson to assign to a room
     	int x = 0;
@@ -98,10 +121,10 @@ public class OTreeNode implements Comparable<OTreeNode> {
         	Random rand = new Random();
         	x = Math.abs(rand.nextInt() % remainingPeople.size());
         	p = remainingPeople.get(x);
-        	remainingPeople.remove(x);
+        	//remainingPeople.remove(x);
         } else {
         	p = remainingPeople.get(0);
-        	remainingPeople.remove(0);
+        	//remainingPeople.remove(0);
         }
     	return p;
     }
