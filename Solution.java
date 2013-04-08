@@ -11,74 +11,112 @@ public class Solution
 		// TODO Auto-generated constructor stub
 	}
 
+	//**************************************************************************************************
+	//**************************************************************************************************
+	//**************************************************************************************************
+	//ADDED ALL CHECKING BELOW *************************************************************************
 	//****************************************************************************************************************
-	//The checkHardConstraints method is in charge of checking if the specified solution violates any of the hard    *
-	//Constraints specified by the problem instance. It takes in an arraylist of tuples called assignment which      *																 
-	//represents a list of rooms with the list of people assigned to each room as the second element in the tuple.	 *
-	//checkHardConstraints also takes in the list of people specified from the input file to check the output 		 *
-	//against.  This method uses two for loops to check if the generated solution violates any hard constraint and   *
-	//will write out the error if any occur.																		 *
+	//Need to document
 	//****************************************************************************************************************
-	public static boolean checkHardConstraints(ArrayList<Tuple> assignment, ArrayList<Person> people)
+	//Might be useless if we are dequeuing properly
+	public static boolean checkTwoMany(ArrayList<Tuple> assignment)
 	{
+		int count;
+		String roomName;
 		//Loop to check how many people are assigned to each room.
 		for (int j = 0; j < assignment.size(); j++)
 		{
-			//Check to see if the number of people assigned to a room is greater than two.  If true error and break out of the function.
-			if (assignment.get(j).getPeople().size() > 2)
+			roomName = assignment.get(j).getRoom().getName();
+			count = 0;
+			for(int i = j; i < assignment.size(); i++)
+				if(assignment.get(i).getRoom().getName().equals(roomName))
+					count++;			
+			if (count > 2)
 			{
 				System.out.println(" -> Error: \"Two\" many people in a room");
 				return false;
 			}
 		}
-		//Boolean that will be set to true if the person being examined in the list of people is a manager, projest head or
-		//group head.
+		return true;
+	}
+	
+	//Will be useless if we are dequeuing full rooms when completed.
+	public static boolean checkBigMoney(ArrayList<Tuple> assignment)
+	{
 		boolean manager = false;
-		//Iterate through the list of people specified in the supplied input file.
-		for (int i = 0; i < people.size(); i++)
+		for(int i = 0; i < assignment.size(); i++)
 		{
-			//Count that keeps track of how many rooms a person is assigned to.
-			int count = 0;
-			//Create a duplicate of the person being compared for easibility of coding.
-			Person per = people.get(i);
-			//Check to see if the person being looked at is a manger, group head or project head.
-			if (!people.get(i).getGroupHead().equals("None") || !people.get(i).getProjectHead().equals("None") || people.get(i).getManager())
-			{
-				System.out.println(people.get(i).getName());
+			//Check if the person is a manager, group head or project head.
+			if(assignment.get(i).getPerson().getManager() || !assignment.get(i).getPerson().getGroupHead().equals("None") || !assignment.get(i).getPerson().getProjectHead().equals("None"))
 				manager = true;
-			}
-			//Loop to iterate through the solution to the problem.  Check each tuple to see if any of the hard constraints are violated.
-			for (int j = 0; j < assignment.size(); j++)
+			//If the person is a manager, check if they are sharing a room with anyone.
+			if(manager)
 			{
-				//Check to see if a group head project head or manager is sharing a room.  If true error and break out of the function.
-				if (manager && assignment.get(j).getPeople().contains(people.get(i).getName()) && assignment.get(j).getPeople().size() > 1)
+				String managerName = assignment.get(i).getPerson().getName();
+				String roomNumber = assignment.get(i).getRoom().getName();				
+				for(int j = 0; j < assignment.size(); j++)
 				{
-					System.out.println(" -> Error: Big Money No Share");
-					return false;
-				}
-				//Check if the person is in a room.  If true increment count by one.
-				if (assignment.get(j).getPeople().contains(per.getName()))
-				{
-					count++;
+					if(assignment.get(j).getRoom().getName().equals(roomNumber) && !assignment.get(j).getPerson().getName().equals(managerName))
+					{
+						System.out.println(" -> Error: Big Money No Share!");
+						return false;
+					}
 				}
 			}
-			//Check to see if a person is assigned to more than one room.  If true error and break out of the function.
-			if (count > 1)
-			{
-				System.out.println(" -> Error: Duplicate Assignment");
-				return false;
-			}
-			//Check to see if the person is assigned to a room.  If true error and break out of the function.
-			if (count == 0)
-			{
-				System.out.println(" -> Error: No assignment");
-				return false;
-			}
-			//Reset the manager boolean to false.
 			manager = false;
 		}
 		return true;
+	}	
+	
+	//Check multiple assignment and all assigned
+	public static boolean checkAssignment(ArrayList<Tuple> assignment, ArrayList<Person> people)
+	{
+		int count;
+		String name2Check;
+		for(int i = 0; i < people.size(); i++)
+		{
+			count = 0;
+			name2Check = people.get(i).getName();
+			for(int j = 0; j < assignment.size(); j++)
+			{
+				if(assignment.get(j).getPerson().getName().equals(name2Check))
+					count++;
+			}
+			if(count > 1)
+			{
+				System.out.println(" -> Error: Person Is Assigned To Multiple Rooms!");
+				return false;
+			}
+			if(count < 1)
+			{
+				System.out.println(" -> Error: Not Everyone Is Assigned A Room!");
+				return false;
+			}
+		}
+		return true;		
 	}
+	
+	public static boolean checkSolvable(ArrayList<Person> people, ArrayList<Room> rooms)
+	{
+		int managerCount = 0;
+		int otherPeople = 0;
+		
+		for(int i = 0; i < people.size(); i++)
+		{
+			if(people.get(i).getManager() || !people.get(i).getGroupHead().equals("None") || !people.get(i).getProjectHead().equals("None"))
+				managerCount++;
+			else
+				otherPeople++;
+		}
+		
+		if((rooms.size() - managerCount - ((otherPeople/2) + (otherPeople%2))) < 0)
+		{
+			System.out.println(" -> Error: Problem Is Unsolvable With The Provided Input!");
+			return false;
+		}
+		return true;		
+	}
+	
 	
 	public boolean isComplete() {
 		// TODO Auto-generated method stub
@@ -214,4 +252,511 @@ public class Solution
 			}
 		}
 	}
+	
+	//ADDED THIS*************************************************************
+		public static void printAssignment(ArrayList<Tuple> assignment) 
+		{
+			for(int i = 0; i < assignment.size(); i++)
+			{
+				SisyphusI.output.print("Room: " + assignment.get(i).getRoom().getName());
+				SisyphusI.output.print("\n");
+				SisyphusI.output.print("Person: " + assignment.get(i).getPerson().getName());
+				SisyphusI.output.print("\n");
+				SisyphusI.output.print("\n");
+			}
+			
+		}
+		
+		//Get Actual Utility
+		public static int getNodeUtility(ArrayList<Tuple> assignedPeople, ArrayList<Project> projects)
+		{
+			int totalUtility = 0;
+			for(int i = 0; i < assignedPeople.size(); i++)
+			{
+				Tuple assigned = assignedPeople.get(i);
+				//Check constraints for group heads.
+				if(!assignedPeople.get(i).getPerson().getGroupHead().equals("none"))
+				{
+					
+					totalUtility += checkGroupHeadLarge(assigned); // 1
+					totalUtility += checkGroupHeadsClose(assigned, assignedPeople); // 2
+					totalUtility += checkSecretaryClose(assigned, assignedPeople); // 3
+				}
+				if(assignedPeople.get(i).getPerson().getSecretary())
+				{
+					totalUtility += checkSecretariesTogether(assigned, assignedPeople); // 4
+				}
+				if(assignedPeople.get(i).getPerson().getManager())
+				{
+					totalUtility += checkManagerCloseSecretary(assigned, assignedPeople); // 5
+					totalUtility += checkManagerCloseGroupHead(assigned, assignedPeople); // 6
+					totalUtility += checkManagerCloseAll(assigned, assignedPeople); // 7
+				}
+				if(!assignedPeople.get(i).getPerson().getProjectHead().equals("none"))
+				{
+					totalUtility += checkHeadProjClose2All(assigned, assignedPeople); // 8
+					totalUtility += checkLargeProjectHeadCloseSecretary(assigned, assignedPeople, projects); // 9
+					totalUtility += checkProjHeadCloseGroupHead(assigned, assignedPeople, projects);// 10
+				}
+				if(assignedPeople.get(i).getPerson().getSmoker())
+				{
+					totalUtility += checkSmokersTogether(assigned, assignedPeople); // 11
+				}
+				totalUtility += checkSameProjectTogether(assigned, assignedPeople); // 12
+				totalUtility += checkHackersShare(assigned, assignedPeople); // 13
+				totalUtility += checkShareOffice(assigned, assignedPeople); // 14
+				totalUtility += checkWorkTogether(assigned, assignedPeople); // 15
+				totalUtility += checkShareSmall(assigned, assignedPeople); // 16	
+			}
+			System.out.println("TOTAL == " + totalUtility);
+			return totalUtility;
+		}
+		//Get utility function which returns the utility of the given proposed solution
+		public static int getUtility(ArrayList<Tuple> assignedPeople, ArrayList<Project> projects)
+		{
+			int utility = 0;
+			/*
+			//Need to call all soft constraint checkers here
+			//utility += checkGroupHeadLarge(assignment); // 1
+			//utility += checkGroupHeadsClose(assignment, assignedPeople); // 2
+			//utility += checkSecretaryClose(assignment, assignedPeople); // 3
+			if(assignment.getPerson().getSecretary())
+			{
+				//utility += checkSecretariesTogether(assignment, assignedPeople); // 4
+			}	
+			//utility += checkManagerCloseSecretary(assignment, assignedPeople); // 5
+			//utility += checkManagerCloseGroupHead(assignment, assignedPeople); // 6
+			//utility += checkManagerCloseAll(assignment, assignedPeople); // 7
+			//utility += checkHeadProjClose2All(assignment, assignedPeople); // 8
+			//utility += checkLargeProjectHeadCloseSecretary(assignment, assignedPeople, projects); // 9
+			//utility += checkProjHeadCloseGroupHead(assignment, assignedPeople, projects);// 10
+			if(assignment.getPerson().getSmoker())
+			{
+				//utility += checkSmokersTogether(assignment, assignedPeople); // 11
+			}
+			//NEED A DEEP COPY LIST TO DEQUEUE FROM
+			//utility += checkSameProjectTogether(assignment, assignedPeople); // 12
+			//utility += checkHackersShare(assignment, assignedPeople); // 13
+			//utility += checkShareOffice(assignment, assignedPeople); // 14
+			//utility += checkWorkTogether(assignment, assignedPeople); // 15
+			//utility += checkShareSmall(assignment, assignedPeople); // 16		
+			 */
+			utility = getNodeUtility(assignedPeople, projects);
+			return utility;
+		}
+		
+		// 1
+		static int checkGroupHeadLarge(Tuple assignment)
+		{
+			if(!assignment.getPerson().getGroupHead().equals("None") && !assignment.getRoom().getSize().equals("large"))
+				return -40;
+			
+			return 0;
+		}	
+		
+		// 2
+		static int checkGroupHeadsClose(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			int totalPenalty = 0;
+			//Check if the person to assign is a group head
+			if(!assignment.getPerson().getGroupHead().equals("None"))
+			{
+				String group = assignment.getPerson().getGroupHead();
+				String personName = assignment.getPerson().getName();
+				String room = assignment.getRoom().getName();
+				boolean roomClose = false;			
+				//Check all of the assigned people to see if they are close to the group head.
+				for(int i = 0; i < assignedPeople.size(); i++)
+				{	
+					//**********************************************************
+					//Check if the person is part of the same group and that you are not looking at the person // MAY BE ABLE TO OPTIMIZE BY REMOVING THE LATER CHECK FOR ALL UTILITY FUNCTIONS
+					//WILL REQUIRE TESTING IF THAT IS THE CASE
+					if(assignedPeople.get(i).getPerson().getGroup().equals(group) && !assignedPeople.get(i).getPerson().getName().equals(personName))
+					{
+						//Loop through the person to check close rooms and see if the group head will be close to them.
+						for(int j = 0; j < assignedPeople.get(i).getRoom().getClose().size(); j++)
+						{
+							//If the room is found in the close rooms list, set roomClose to true.
+							if(assignedPeople.get(i).getRoom().getClose().get(j).equals(room))
+							{
+								roomClose = true;
+								break;
+							}
+						}
+						//If the room wasn't found in the close list then increase the penalty.
+						if(!roomClose)
+							totalPenalty = totalPenalty + -2;					
+					}
+					roomClose = false;
+				}
+			}
+			return totalPenalty;
+		}
+		
+		// 3
+		static int checkSecretaryClose(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			if(!assignment.getPerson().getGroupHead().equals("None"))
+			{
+				String group = assignment.getPerson().getGroup(); 
+				String name = assignment.getPerson().getName();
+				String room = assignment.getRoom().getName();
+				boolean secretaryClose = false;
+				for(int i = 0; i < assignedPeople.size(); i++)
+				{
+					if(assignedPeople.get(i).getPerson().getSecretary() && assignedPeople.get(i).getPerson().getGroup().equals(group) && !assignedPeople.get(i).getPerson().getName().equals(name))
+					{
+						for(int j = 0; j < assignedPeople.get(i).getRoom().getClose().size(); j++)
+						{
+							//If the room is found in the close rooms list, set roomClose to true.
+							if(assignedPeople.get(i).getRoom().getClose().get(j).equals(room))
+							{
+								secretaryClose = true;
+								break;
+							}
+						}					
+					}				
+				}
+				if(!secretaryClose)
+					return -30;
+			}
+			return 0;
+		}
+		
+		// 4
+		static int checkSecretariesTogether(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			String room = assignment.getRoom().getName();
+			String person = assignment.getPerson().getName();
+			
+			for(int i = 0; i < assignedPeople.size(); i++)
+			{
+				if(assignedPeople.get(i).getRoom().getName().equals(room) && (!assignedPeople.get(i).getPerson().getName().equals(person) && !assignedPeople.get(i).getPerson().getSecretary()))
+					return -5;
+			}
+			return 0;		
+		}
+		
+		// 5
+		static int checkManagerCloseSecretary(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			if(assignment.getPerson().getManager())
+			{
+				String group = assignment.getPerson().getGroup();
+				String name = assignment.getPerson().getName();
+				String room = assignment.getRoom().getName();
+				boolean secretaryClose = false;
+				for(int i = 0; i < assignedPeople.size(); i++)
+				{
+					if(assignedPeople.get(i).getPerson().getSecretary() && assignedPeople.get(i).getPerson().getGroup().equals(group) && !assignedPeople.get(i).getPerson().getName().equals(name))
+					{
+						for(int j = 0; j < assignedPeople.get(i).getRoom().getClose().size(); j++)
+						{
+							//If the room is found in the close rooms list, set roomClose to true.
+							if(assignedPeople.get(i).getRoom().getClose().get(j).equals(room))
+							{
+								secretaryClose = true;
+								break;
+							}
+						}					
+					}				
+				}
+				if(!secretaryClose)
+					return -20;
+			}
+			return 0;
+		}
+		
+		// 6
+		static int checkManagerCloseGroupHead(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			if(assignment.getPerson().getManager())
+			{
+				String group = assignment.getPerson().getGroup();
+				String name = assignment.getPerson().getName();
+				String room = assignment.getRoom().getName();
+				boolean groupHeadClose = false;
+				for(int i = 0; i < assignedPeople.size(); i++)
+				{
+					if(assignedPeople.get(i).getPerson().getGroupHead().equals(group) && !assignedPeople.get(i).getPerson().getName().equals(name))
+					{
+						for(int j = 0; j < assignedPeople.get(i).getRoom().getClose().size(); j++)
+						{
+							//If the room is found in the close rooms list, set roomClose to true.
+							if(assignedPeople.get(i).getRoom().getClose().get(j).equals(room))
+							{
+								groupHeadClose = true;
+								break;
+							}
+						}					
+					}				
+				}
+				if(!groupHeadClose)
+					return -20;
+			}
+			return 0;
+		}
+		
+		// 7
+		static int checkManagerCloseAll(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			int totalPenalty = 0;
+			//Check if the person to assign is a manager
+			if(assignment.getPerson().getManager())
+			{
+				String group = assignment.getPerson().getGroup();
+				String personName = assignment.getPerson().getName();
+				String room = assignment.getRoom().getName();
+				boolean roomClose = false;			
+				//Check all of the assigned people to see if they are close to the manager.
+				for(int i = 0; i < assignedPeople.size(); i++)
+				{	
+					//**********************************************************
+					//Check if the person is part of the same group and that you are not looking at the person // MAY BE ABLE TO OPTIMIZE BY REMOVING THE LATER CHECK FOR ALL UTILITY FUNCTIONS
+					//WILL REQUIRE TESTING IF THAT IS THE CASE
+					if(assignedPeople.get(i).getPerson().getGroup().equals(group) && !assignedPeople.get(i).getPerson().getName().equals(personName))
+					{
+						//Loop through the person to check close rooms and see if the manager will be close to them.
+						for(int j = 0; j < assignedPeople.get(i).getRoom().getClose().size(); j++)
+						{
+							//If the room is found in the close rooms list, set roomClose to true.
+							if(assignedPeople.get(i).getRoom().getClose().get(j).equals(room))
+							{
+								roomClose = true;
+								break;
+							}
+						}
+						//If the room wasn't found in the close list then increase the penalty.
+						if(!roomClose)
+							totalPenalty = totalPenalty + -2;					
+					}
+					roomClose = false;
+				}
+			}
+			return totalPenalty;
+		}
+		
+		// 8
+		static int checkHeadProjClose2All(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			int totalPenalty = 0;
+			//Check if the person to assign is a project head
+			if(!assignment.getPerson().getProjectHead().equals("None"))
+			{
+				String project = assignment.getPerson().getProjectHead();
+				String personName = assignment.getPerson().getName();
+				String room = assignment.getRoom().getName();
+				boolean roomClose = false;			
+				//Check all of the assigned people to see if they are close to the group head.
+				for(int i = 0; i < assignedPeople.size(); i++)
+				{	
+					//**********************************************************
+					//Check if the person is part of the same group and that you are not looking at the person // MAY BE ABLE TO OPTIMIZE BY REMOVING THE LATER CHECK FOR ALL UTILITY FUNCTIONS
+					//WILL REQUIRE TESTING IF THAT IS THE CASE
+					if(assignedPeople.get(i).getPerson().getProject().equals(project) && !assignedPeople.get(i).getPerson().getName().equals(personName))
+					{
+						//Loop through the person to check close rooms and see if the group head will be close to them.
+						for(int j = 0; j < assignedPeople.get(i).getRoom().getClose().size(); j++)
+						{
+							//If the room is found in the close rooms list, set roomClose to true.
+							if(assignedPeople.get(i).getRoom().getClose().get(j).equals(room))
+							{
+								roomClose = true;
+								break;
+							}
+						}
+						//If the room wasn't found in the close list then increase the penalty.
+						if(!roomClose)
+							totalPenalty = totalPenalty + -5;					
+					}
+					roomClose = false;
+				}
+			}
+			return totalPenalty;
+		}
+		
+		// 9
+		static int checkLargeProjectHeadCloseSecretary(Tuple assignment, ArrayList<Tuple> assignedPeople, ArrayList<Project> projects)
+		{
+			if(!assignment.getPerson().getProjectHead().equals("None"))
+			{
+				String proj = assignment.getPerson().getProject();
+				boolean large = false;
+				for(int i = 0; i < projects.size(); i++)
+				{
+					if(projects.get(i).getName().equals(proj) && projects.get(i).getLarge())
+						large = projects.get(i).getLarge();		
+					if(large)
+					{
+						String group = assignment.getPerson().getGroup();
+						boolean secretaryClose = false;
+						String room = assignment.getRoom().getName();
+						String name = assignment.getPerson().getName();
+						for(int j = 0; j < assignedPeople.size(); j++)
+						{
+							if(assignedPeople.get(j).getPerson().getSecretary() && assignedPeople.get(j).getPerson().getGroup().equals(group) && !assignedPeople.get(j).getPerson().getName().equals(name))
+							{
+								for(int k = 0; k < assignedPeople.get(j).getRoom().getClose().size(); k++)
+								{
+									//If the room is found in the close rooms list, set roomClose to true.
+									if(assignedPeople.get(j).getRoom().getClose().get(k).equals(room))
+									{
+										secretaryClose = true;
+										break;
+									}
+								}					
+							}				
+						}
+						if(!secretaryClose)
+							return -10;
+					}
+				}
+			}		
+			return 0;
+		}
+		
+		// 10
+		static int checkProjHeadCloseGroupHead(Tuple assignment, ArrayList<Tuple> assignedPeople, ArrayList<Project> projects)
+		{
+			if(!assignment.getPerson().getProjectHead().equals("None"))
+			{
+				String proj = assignment.getPerson().getProject();
+				boolean large = false;
+				for(int i = 0; i < projects.size(); i++)
+				{
+					if(projects.get(i).getName().equals(proj) && projects.get(i).getLarge())
+						large = projects.get(i).getLarge();		
+					if(large)
+					{
+						String group = assignment.getPerson().getGroup();
+						boolean groupHeadClose = false;
+						String room = assignment.getRoom().getName();
+						String name = assignment.getPerson().getName();
+						for(int j = 0; j < assignedPeople.size(); j++)
+						{
+							if(assignedPeople.get(j).getPerson().getGroupHead().equals(group) && !assignedPeople.get(j).getPerson().getName().equals(name))
+							{
+								for(int k = 0; k < assignedPeople.get(j).getRoom().getClose().size(); k++)
+								{
+									//If the room is found in the close rooms list, set roomClose to true.
+									if(assignedPeople.get(j).getRoom().getClose().get(k).equals(room))
+									{
+										groupHeadClose = true;
+										break;
+									}
+								}					
+							}				
+						}
+						if(!groupHeadClose)
+							return -10;
+					}
+				}
+			}		
+			return 0;
+		}
+		// 11
+		static int checkSmokersTogether(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			String room = assignment.getRoom().getName();
+			String person = assignment.getPerson().getName();
+			
+			for(int i = 0; i < assignedPeople.size(); i++)
+			{
+				if(assignedPeople.get(i).getRoom().getName().equals(room) && (!assignedPeople.get(i).getPerson().getName().equals(person) && !assignedPeople.get(i).getPerson().getSmoker()))
+					return -50;
+			}
+			return 0;		
+		}
+		
+		// 12
+		static int checkSameProjectTogether(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			String project = assignment.getPerson().getProject();
+			int index = assignedPeople.indexOf(assignment);
+			if(!project.equals("None"))
+			{
+				String room = assignment.getRoom().getName();
+				for(int i = index; i < assignedPeople.size(); i++)
+				{
+					if(assignedPeople.get(i).getRoom().getName().equals(room) && project.equals(assignedPeople.get(i).getPerson().getProject()) && !assignment.getPerson().getName().equals(assignedPeople.get(i).getPerson().getName()))
+						return -7;
+				}	
+			}
+			return 0;
+		}
+		
+		// 13
+		static int checkHackersShare(Tuple assignment, ArrayList<Tuple> assignedPeople) 
+		{
+			if(!assignment.getPerson().getSecretary())
+			{
+				String room = assignment.getRoom().getName();
+				boolean hacker = assignment.getPerson().getHacker();
+				int index = assignedPeople.indexOf(assignment);
+				for(int i = index; i < assignedPeople.size(); i++)
+				{
+					if(assignedPeople.get(i).getRoom().getName().equals(room) && assignedPeople.get(i).getPerson().getHacker() != hacker && !assignedPeople.get(i).getPerson().getSecretary())
+						return -2;
+				}
+			}
+			return 0;
+		}
+		
+		// 14
+		static int checkShareOffice(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			String name = assignment.getPerson().getName();
+			String room = assignment.getRoom().getName();
+			
+			for(int i = 0; i < assignedPeople.size(); i++)
+			{
+				if(assignedPeople.get(i).getRoom().getName().equals(room) && !name.equals(assignedPeople.get(i).getPerson().getName()))
+					return -4;
+			}		
+			return 0;
+		}	
+		
+		// 15
+		static int checkWorkTogether(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{
+			String room = assignment.getRoom().getName();
+			String name = assignment.getPerson().getName();
+			int index = assignedPeople.indexOf(assignment);
+			boolean workTogether = false;
+			
+			for(int i = index; i < assignedPeople.size(); i++)
+			{
+				if(assignedPeople.get(i).getRoom().getName().equals(room) && !assignedPeople.get(i).getPerson().getName().equals(name))
+				{
+					for(int j = 0; j < assignedPeople.get(i).getPerson().getWorksWith().size(); j++)
+					{
+						if(assignedPeople.get(i).getPerson().getWorksWith().get(j).equals(name))
+						{
+							workTogether = true;
+							break;
+						}
+					}
+					if(!workTogether)
+						return -3;
+				}			
+			}		
+			return 0;
+		}
+		
+		// 16
+		static int checkShareSmall(Tuple assignment, ArrayList<Tuple> assignedPeople)
+		{		
+			if(assignment.getRoom().getSize().equals("small"))
+			{
+				String name = assignment.getPerson().getName();
+				String room = assignment.getRoom().getName();
+				int index = assignedPeople.indexOf(assignment);
+				for(int i = index; i < assignedPeople.size(); i++)
+				{
+					if(assignedPeople.get(i).getRoom().getName().equals(room) && !name.equals(assignedPeople.get(i).getPerson().getName()))
+						return -25;
+				}			
+			}
+			return 0;
+		}
 }
