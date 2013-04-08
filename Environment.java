@@ -658,9 +658,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	//a_assign_to is a method which creates the list of tuples that represents the solution as specified in the 	 *
 	//output file.																									 *
 	//****************************************************************************************************************
-	public void a_assign_to(OTreeNode node, String p, String room) 
+	public void a_assign_to(String p, String room) 
 	{	
-		int personIndex = -1;
+		/*int personIndex = -1;
 		int roomIndex = -1;
 		for(int i = 0; i < node.remainingPeople.size(); i++)
 		{
@@ -689,7 +689,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			node.remainingRooms.get(roomIndex).setNumAssigned(rooms.get(roomIndex).getNumAssigned() + 1);
 		
 		
-		node.assignment.add(new Tuple(node.remainingRooms.get(roomIndex), node.remainingPeople.get(personIndex)));
+		node.assignment.add(new Tuple(node.remainingRooms.get(roomIndex), node.remainingPeople.get(personIndex)));*/
 	}
 
 	//@Override
@@ -983,12 +983,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public boolean e_project(String p, String prj) {
 		return e_in_project(p, prj);
-	}
-
-	@Override
-	public void a_assign_to(String p, String room) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

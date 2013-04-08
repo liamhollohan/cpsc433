@@ -88,7 +88,6 @@ public interface SisyphusPredicates {
 	
 	public static String h_assign_to = "query or assert person <id1> is assigned to <id2>";
 	public void a_assign_to(String p, String room) throws Exception;
-	public void a_assign_to(OTreeNode node, String p, String room);
 	public boolean e_assign_to(String p, String room);
 
 	// ROOMS
