@@ -16,10 +16,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	private static ArrayList<String> roomNames = new ArrayList<String>();
 	private static ArrayList<Room> rooms = new ArrayList<Room>();
 
-	public static ArrayList<Room> refRooms = new ArrayList<Room>();
-	public static ArrayList<Person> refPeople = new ArrayList<Person>();
+	//public static ArrayList<Room> refRooms = new ArrayList<Room>();
+	//public static ArrayList<Person> refPeople = new ArrayList<Person>();
 	
-	private static ArrayList<Tuple> assignment = new ArrayList<Tuple>();
+	//private static ArrayList<Tuple> assignment = new ArrayList<Tuple>();
 	
 	public Environment(PredicateReader p) 
 	{
@@ -40,10 +40,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		roomNames.clear();
 		rooms.clear();
 		people.clear();
-		assignment.clear();
+		//assignment.clear();
 	}
 	
-	public static ArrayList<Room> getRefRooms() {
+	/*public static ArrayList<Room> getRefRooms() {
 		return refRooms;
 	}
 
@@ -57,7 +57,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
 	public static void setRefPeople(ArrayList<Person> refPeople) {
 		Environment.refPeople = refPeople;
-	}
+	}*/
 	
 	public ArrayList<String> getPeopleNames()
 	{
@@ -69,10 +69,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		return roomNames;
 	}
 	
-	public ArrayList<Tuple> getAssignment()
+	/*public ArrayList<Tuple> getAssignment()
 	{
 		return assignment;
-	}
+	}*/
 	
 	public ArrayList<Person> getPeople()
 	{
@@ -658,49 +658,49 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	//a_assign_to is a method which creates the list of tuples that represents the solution as specified in the 	 *
 	//output file.																									 *
 	//****************************************************************************************************************
-	public void a_assign_to(String p, String room) 
+	public void a_assign_to(OTreeNode node, String p, String room) 
 	{	
 		int personIndex = -1;
 		int roomIndex = -1;
-		for(int i = 0; i < refPeople.size(); i++)
+		for(int i = 0; i < node.remainingPeople.size(); i++)
 		{
-			if(refPeople.get(i).getName().equals(p))
+			if(node.remainingPeople.get(i).getName().equals(p))
 			{
 				personIndex = i;
 				break;
 			}
 		}
-		for(int j = 0; j < refRooms.size(); j++)
+		for(int j = 0; j < node.remainingRooms.size(); j++)
 		{
-			if(refRooms.get(j).getName().equals(room))
+			if(node.remainingRooms.get(j).getName().equals(room))
 			{
 				roomIndex = j;
 				break;
 			}
 		}
-		if(refPeople.get(personIndex).getManager() || !refPeople.get(personIndex).getGroupHead().equals("None") || !refPeople.get(personIndex).getProjectHead().equals("None"))
-			refRooms.get(roomIndex).setFull(true);
-		else if(refRooms.get(roomIndex).getNumAssigned() == 1)
+		if(node.remainingPeople.get(personIndex).getManager() || !node.remainingPeople.get(personIndex).getGroupHead().equals("None") || !node.remainingPeople.get(personIndex).getProjectHead().equals("None"))
+			node.remainingRooms.get(roomIndex).setFull(true);
+		else if(node.remainingRooms.get(roomIndex).getNumAssigned() == 1)
 		{
-			refRooms.get(roomIndex).setFull(true);
-			refRooms.get(roomIndex).setNumAssigned(rooms.get(roomIndex).getNumAssigned() + 1);
+			node.remainingRooms.get(roomIndex).setFull(true);
+			node.remainingRooms.get(roomIndex).setNumAssigned(rooms.get(roomIndex).getNumAssigned() + 1);
 		}
 		else
-			refRooms.get(roomIndex).setNumAssigned(rooms.get(roomIndex).getNumAssigned() + 1);
+			node.remainingRooms.get(roomIndex).setNumAssigned(rooms.get(roomIndex).getNumAssigned() + 1);
 		
 		
-		assignment.add(new Tuple(refRooms.get(roomIndex), refPeople.get(personIndex)));
+		node.assignment.add(new Tuple(node.remainingRooms.get(roomIndex), node.remainingPeople.get(personIndex)));
 	}
 
-	@Override
-	public boolean e_assign_to(String p, String room) 
+	//@Override
+	/*public boolean e_assign_to(String p, String room) 
 	{
 		int roomIndex = roomNames.indexOf(room);
 		int personIndex = peopleNames.indexOf(p);
 		Tuple check = new Tuple(rooms.get(roomIndex), people.get(personIndex));
 		
-		return assignment.contains(check);
-	}
+		return node.assignment.contains(check);
+	}*/
 
 	@Override
 	public void a_room(String r) {
@@ -983,5 +983,17 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public boolean e_project(String p, String prj) {
 		return e_in_project(p, prj);
+	}
+
+	@Override
+	public void a_assign_to(String p, String room) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean e_assign_to(String p, String room) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

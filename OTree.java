@@ -23,14 +23,13 @@ public class OTree {
     
     public void Transition() {
         OTreeNode selectedLeaf = SelectLeaf();
-        
+        //System.out.println(" => SelectedLeaf = " + selectedLeaf.toString()+"\n");
         OTreeNode children[] = selectedLeaf.Branch();
-        System.out.println(children.length);
         for (OTreeNode child : children) {
             if (child.isComplete()) {
                 completed.add(child);
 
-                if (bestSol == null || child.getUtility() < bestSol.getUtility()) {
+                if (bestSol == null || child.getUtility() > bestSol.getUtility()) {
                     bestSol = child;
                 }
             } else {

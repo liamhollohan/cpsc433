@@ -44,7 +44,6 @@ public class SisyphusI {
 			envI.fromFile(args[0]);
 			
 			//=============Begin OTree Computation==================
-			
 			OTree tree = new OTree(envI);
 
 			OTreeNode bestSol = null;
@@ -59,11 +58,13 @@ public class SisyphusI {
 	            
 	            if (newBest != null && !newBest.equals(bestSol)) {
 	                bestSol = newBest;
-	                System.out.println("New Best [" + transCount + "] : " + bestSol.toString() + ":" + bestSol.getUtility());
+	                System.out.println("####New Best [" + transCount + "] : " + bestSol.toString() + ":" + bestSol.getUtility());
 	            }
 	            
-	            if ((System.currentTimeMillis() - startTime) > 5000000) break;
+	            if ((System.currentTimeMillis() - startTime) > 60000) break;
 			}
+			
+			//System.out.println("####New Best [" + transCount + "] : " + bestSol.toString() + ":" + bestSol.getUtility());
 			System.out.println("# of Transitions: " + transCount);
 			//=============End OTree Computation====================
 			
