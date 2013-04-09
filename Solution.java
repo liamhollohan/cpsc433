@@ -267,55 +267,12 @@ public class Solution
 			
 		}
 		
-		//Get Actual Utility
-		public static int getNodeUtility(ArrayList<Tuple> assignedPeople, ArrayList<Project> projects)
-		{
-			int totalUtility = 0;
-			for(int i = 0; i < assignedPeople.size(); i++)
-			{
-				Tuple assigned = assignedPeople.get(i);
-				//Check constraints for group heads.
-				if(!assignedPeople.get(i).getPerson().getGroupHead().equals("none"))
-				{
-					
-					totalUtility += checkGroupHeadLarge(assigned); // 1
-					totalUtility += checkGroupHeadsClose(assigned, assignedPeople); // 2
-					totalUtility += checkSecretaryClose(assigned, assignedPeople); // 3
-				}
-				if(assignedPeople.get(i).getPerson().getSecretary())
-				{
-					totalUtility += checkSecretariesTogether(assigned, assignedPeople); // 4
-				}
-				if(assignedPeople.get(i).getPerson().getManager())
-				{
-					totalUtility += checkManagerCloseSecretary(assigned, assignedPeople); // 5
-					totalUtility += checkManagerCloseGroupHead(assigned, assignedPeople); // 6
-					totalUtility += checkManagerCloseAll(assigned, assignedPeople); // 7
-				}
-				if(!assignedPeople.get(i).getPerson().getProjectHead().equals("none"))
-				{
-					totalUtility += checkHeadProjClose2All(assigned, assignedPeople); // 8
-					totalUtility += checkLargeProjectHeadCloseSecretary(assigned, assignedPeople, projects); // 9
-					totalUtility += checkProjHeadCloseGroupHead(assigned, assignedPeople, projects);// 10
-				}
-				if(assignedPeople.get(i).getPerson().getSmoker())
-				{
-					totalUtility += checkSmokersTogether(assigned, assignedPeople); // 11
-				}
-				totalUtility += checkSameProjectTogether(assigned, assignedPeople); // 12
-				totalUtility += checkHackersShare(assigned, assignedPeople); // 13
-				totalUtility += checkShareOffice(assigned, assignedPeople); // 14
-				totalUtility += checkWorkTogether(assigned, assignedPeople); // 15
-				totalUtility += checkShareSmall(assigned, assignedPeople); // 16	
-			}
-			System.out.println("TOTAL == " + totalUtility);
-			return totalUtility;
-		}
+		
 		//Get utility function which returns the utility of the given proposed solution
-		public static int getUtility(ArrayList<Tuple> assignedPeople, ArrayList<Project> projects)
+		/*public static int getUtility(ArrayList<Tuple> assignedPeople, ArrayList<Project> projects)
 		{
 			int utility = 0;
-			/*
+			
 			//Need to call all soft constraint checkers here
 			//utility += checkGroupHeadLarge(assignment); // 1
 			//utility += checkGroupHeadsClose(assignment, assignedPeople); // 2
@@ -340,10 +297,10 @@ public class Solution
 			//utility += checkShareOffice(assignment, assignedPeople); // 14
 			//utility += checkWorkTogether(assignment, assignedPeople); // 15
 			//utility += checkShareSmall(assignment, assignedPeople); // 16		
-			 */
+			
 			utility = getNodeUtility(assignedPeople, projects);
 			return utility;
-		}
+		}*/
 		
 		// 1
 		static int checkGroupHeadLarge(Tuple assignment)
