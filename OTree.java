@@ -28,7 +28,7 @@ public class OTree {
             if (child.isComplete()) {
                 completed.add(child);
 
-                if (bestSol == null || child.getUtility(child.assignment) > bestSol.getUtility(bestSol.assignment)) {
+                if (bestSol == null || child.getUtility() > bestSol.getUtility()) {
                     bestSol = child;
                 }
             } else {

@@ -3,14 +3,14 @@ package cpsc433;
 import java.util.ArrayList;
 import java.util.Random;
 
-
 public class OTreeNode implements Comparable<OTreeNode> {
     public ArrayList<Tuple> assignment = new ArrayList<Tuple>();
     public ArrayList<Room> remainingRooms = new ArrayList<Room>();
     public ArrayList<Person> remainingPeople = new ArrayList<Person>();
     private Environment env;
     
-    int utility = 0;
+    private int utility;
+    private int projectedUtility;
     
     //create root node
     public OTreeNode(Environment env) {
@@ -32,12 +32,13 @@ public class OTreeNode implements Comparable<OTreeNode> {
     }
     
     //Create children node
-    public OTreeNode(Environment env, ArrayList<Tuple> assignment, ArrayList<Room> remainingRooms, ArrayList<Person> remainingPeople, int utility) {
+    public OTreeNode(Environment env, ArrayList<Tuple> assignment, ArrayList<Room> remainingRooms, ArrayList<Person> remainingPeople, int utility, int projectedUtility) {
         this.env = env;
         this.assignment = assignment;
         this.remainingRooms = remainingRooms;
         this.remainingPeople = remainingPeople;
         this.utility = utility;
+        this.projectedUtility = projectedUtility;
         //System.out.println(this.toString());
     }
     
@@ -71,10 +72,11 @@ public class OTreeNode implements Comparable<OTreeNode> {
             if (checkFullRoom(childRemainingRooms.get(i), childAssignment))
             	childRemainingRooms.remove(i);
             
-            int childUtility = getProjectedUtility(childAssignment);
+            int childUtility = calculateUtility(childAssignment);
+            int childProjectedUtility = calculateProjectedUtility(childUtility, childAssignment);
             //System.out.println("childUtility = " + childUtility);
         	childRemainingPeople.remove(p);
-            children[i] = new OTreeNode(env, childAssignment, childRemainingRooms, childRemainingPeople, childUtility);
+            children[i] = new OTreeNode(env, childAssignment, childRemainingRooms, childRemainingPeople, childUtility, childProjectedUtility);
         }
         return children;
     }
@@ -115,7 +117,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
     }
     
 	//Get Actual Utility
-	public int getUtility(ArrayList<Tuple> assignment)
+	public int calculateUtility(ArrayList<Tuple> assignment)
 	{
 		int totalUtility = 0;
 		for(int i = 0; i < assignment.size(); i++)
@@ -159,14 +161,33 @@ public class OTreeNode implements Comparable<OTreeNode> {
 		return totalUtility;
 	}
 	
-    public int getProjectedUtility(ArrayList<Tuple> childAssignment) {
-        int utility = getUtility(childAssignment);
+    public int calculateProjectedUtility(ArrayList<Tuple> childAssignment) {
+        int childUtility = calculateUtility(childAssignment);
+        //utility = childUtility;
         
         if (remainingPeople.size() > 0 && childAssignment.size() != 0) {
-            utility += utility/childAssignment.size() * 0.4 * (remainingPeople.size() + 1);
+            childUtility += childUtility/childAssignment.size() * 0.1 * (remainingPeople.size() + 1);
         }
-        
-        return utility;
+        //projectedUtility = childUtility;
+        return childUtility;
+    }
+    
+    public int calculateProjectedUtility(int utility, ArrayList<Tuple> childAssignment)
+    {
+        if (remainingPeople.size() > 0 && childAssignment.size() != 0) {
+            utility += utility/childAssignment.size() * 0.1 * (remainingPeople.size() + 1);
+        }
+    	return 0;
+    }
+    
+    public int getProjectedUtility()
+    {
+    	return projectedUtility;
+    }
+    
+    public int getUtility()
+    {
+    	return utility;
     }
     
     public boolean isComplete() {
@@ -175,7 +196,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
     
     @Override
     public int compareTo(OTreeNode other) {
-        return Integer.compare(getUtility(assignment), other.getUtility(other.assignment));
+        return Integer.compare(getProjectedUtility(), other.getProjectedUtility());
     }
     
     /**
@@ -190,8 +211,18 @@ public class OTreeNode implements Comparable<OTreeNode> {
         
         OTreeNode otherNode = (OTreeNode) obj;
         
-        //if (otherNode.getPathLength() != getPathLength()) return false;
+        ArrayList<Tuple> otherAssignment = otherNode.assignment;
         
+        if (otherAssignment.size() != assignment.size())
+        	return false;
+        
+        for (int i = 0; i < assignment.size(); i++)
+        {
+        	if (assignment.get(i).equals(otherAssignment.get(i)))
+        		return false;
+        }
+        
+        /*
         //Get the list of remaining rooms from the other node
         ArrayList<Room> otherRemainingRooms = otherNode.remainingRooms;
         
@@ -218,7 +249,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
         {
         	if (remainingPeople.get(i) != otherRemainingPeople.get(i))
         		return false;
-        }
+        }*/
         
         return true;
     }

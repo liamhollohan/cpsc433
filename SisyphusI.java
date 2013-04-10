@@ -58,14 +58,14 @@ public class SisyphusI {
 	            
 	            if (newBest != null && !newBest.equals(bestSol)) {
 	                bestSol = newBest;
-	                System.out.println("####New Best [" + transCount + "] : " + bestSol.toString());
+	                System.out.println("####New Best [" + transCount + "] : " + bestSol.toString() + ":" + bestSol.getUtility());
 	            }
 	            
-	            if ((System.currentTimeMillis() - startTime) > 120000) break;
+	            if ((System.currentTimeMillis() - startTime) > 10000) break;
 			}
 			
 			if (bestSol != null) {
-				System.out.println("Best Solution: " + bestSol.toString() + ":" + bestSol.utility);
+				System.out.println("Best Solution: " + bestSol.toString() + ":" + bestSol.getUtility());
 				for (int i = 0; i < bestSol.assignment.size(); i++) {
 					envI.a_assign_to(bestSol.assignment.get(i).getPerson().getName(), bestSol.assignment.get(i).getRoom().getName());
 				}
