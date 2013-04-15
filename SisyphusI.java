@@ -24,15 +24,9 @@ public class SisyphusI {
 	//****************************************************************************************************************
 	public static void main(String[] args)
 	{
-		try {
-			traceFile = new PrintStream(new FileOutputStream("trace.out"));
-			traceFile.print("Trace sisyphusI.Test");
-			for (String s: args) traceFile.print(" "+s);
-			traceFile.println("\n"+new java.util.Date());
-		}
-		catch (Exception ex) {traceFile = null;}
+		long startTime = System.currentTimeMillis();
 
-		if (args.length <= 2 && args.length != 0) 
+		if (args.length == 2) 
 		{
 			String outfile = makeOutfilename(args[0]);
 			try {
@@ -43,50 +37,56 @@ public class SisyphusI {
 			Environment envI = new Environment(prI);
 			envI.fromFile(args[0]);
 			
+			//Check to see if finding a solution is possible
+			boolean isSolvable = true;
+			/*if (!Solution.checkSolvable(envI.getPeople(), envI.getRooms())) {
+				isSolvable = false;
+			}*/
+			int numPeople = envI.getPeople().size();
+			int totalTime = Integer.parseInt(args[1]);
+			int runningTime = (int) (totalTime - (totalTime*0.02) - numPeople/3);
+			
 			//=============Begin OTree Computation==================
 			OTree tree = new OTree(envI);
 
 			OTreeNode bestSol = null;
 
-			long startTime = System.currentTimeMillis();
+			boolean isComplete = false;
 			int transCount = 0;
-
-			for (;;transCount++) {
-	            tree.Transition();
-	            
-	            OTreeNode newBest = tree.getBestSol();
-	            
-	            if (newBest != null && !newBest.equals(bestSol)) {
-	                bestSol = newBest;
-	                System.out.println("####New Best [" + transCount + "] : " + bestSol.toString() + ":" + bestSol.getUtility());
-	            }
-	            
-	            if ((System.currentTimeMillis() - startTime) > 10000) break;
+			long currentStart = 0;
+			long currentEnd = 0;
+			if(isSolvable) {
+				for (;;transCount++) {
+		            currentStart = System.currentTimeMillis();
+					isComplete = tree.Transition();
+		            
+		            OTreeNode newBest = tree.getBestSol();
+		            
+		            if (newBest != null && !newBest.equals(bestSol)) {
+		                bestSol = newBest;
+		                //System.out.println("####New Best [" + transCount + "] : " + bestSol.toString() + ":" + bestSol.getUtility());
+		            }
+		            currentEnd = System.currentTimeMillis();
+		           
+		            if ((System.currentTimeMillis() - startTime + (currentEnd - currentStart)) > runningTime || isComplete) break;
+				}
 			}
 			
+			System.out.println("# of Transitions: " + transCount);
+			//=============End OTree Computation====================
+			
+			System.out.println("Checkpoint 1: " + String.valueOf(System.currentTimeMillis() - startTime) );
+			
+			//startTime = System.currentTimeMillis();
 			if (bestSol != null) {
-				System.out.println("Best Solution: " + bestSol.toString() + ":" + bestSol.getUtility());
+				System.out.println("Best Solution: " + bestSol.toString() + ":\n" + bestSol.getUtility());
 				for (int i = 0; i < bestSol.assignment.size(); i++) {
 					envI.a_assign_to(bestSol.assignment.get(i).getPerson().getName(), bestSol.assignment.get(i).getRoom().getName());
 				}
 			} else {
 				System.out.println(" -> ERROR: No solution found!");
 			}
-			System.out.println("# of Transitions: " + transCount);
-			
-			//=============End OTree Computation====================
-			
-		}
-		else { // go into "command mode" if there's nothing on the command line
-			PredicateReader pr = new PredicateReader("");
-			Environment env = new Environment(pr);
-			printSynopsis();
-			commandMode(env);
-		}
-
-		if (traceFile!=null) {
-			traceFile.println(new java.util.Date());
-			traceFile.close();
+			System.out.println("Time elapsed: " + String.valueOf(System.currentTimeMillis() - startTime) );
 		}
 	}
 	
@@ -100,35 +100,13 @@ public class SisyphusI {
 	}
 	
 	/**
-	 * Utility method to print out a synopsis of the command line.
-	 */
-	static void printSynopsis() {
-    	println("Synopsis: Sisyphus <search-prg> [<env-file> [<maxTimeInMilliseconds:default="+DEFAULT_MAX_TIME+">]]");
-	}
-	
-	static void println(String s) {
-		System.out.println(s);
-		traceFile.println(s);
-	}
-
-	static void print(String s) {
-		System.out.print(s);
-		traceFile.print(s);
-	}
-
-	static void write(byte[] s, int offset, int count) throws Exception {
-		System.out.write(s, offset, count);
-		traceFile.write(s, offset, count);;
-	}
-	
-	/**
 	 * Implement "command mode": repeatedly read lines of predicates
 	 * from {@link System#in} and either assert them (if the line starts
 	 * with a "!") or evaluate them (and return "true" or "false" to
 	 * {@link System#out}. 
 	 * @param env the environment that can interpret the predicates.
 	 */
-	public static void commandMode(PredicateReader env) {
+	/*public static void commandMode(PredicateReader env) {
 		final int maxBuf = 200;
 		byte[] buf = new byte[maxBuf];
 		int length;
@@ -155,6 +133,6 @@ public class SisyphusI {
 		} catch (Exception e) {
 			println("exiting: "+e.toString());
 		}
-	}
+	}*/
 	
 }

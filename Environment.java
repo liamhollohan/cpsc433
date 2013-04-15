@@ -658,36 +658,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	//****************************************************************************************************************
 	public void a_assign_to(String p, String room) 
 	{	
-		/*int personIndex = -1;
-		int roomIndex = -1;
-		for(int i = 0; i < node.remainingPeople.size(); i++)
-		{
-			if(node.remainingPeople.get(i).getName().equals(p))
-			{
-				personIndex = i;
-				break;
-			}
-		}
-		for(int j = 0; j < node.remainingRooms.size(); j++)
-		{
-			if(node.remainingRooms.get(j).getName().equals(room))
-			{
-				roomIndex = j;
-				break;
-			}
-		}
-		if(node.remainingPeople.get(personIndex).getManager() || !node.remainingPeople.get(personIndex).getGroupHead().equals("None") || !node.remainingPeople.get(personIndex).getProjectHead().equals("None"))
-			node.remainingRooms.get(roomIndex).setFull(true);
-		else if(node.remainingRooms.get(roomIndex).getNumAssigned() == 1)
-		{
-			node.remainingRooms.get(roomIndex).setFull(true);
-			node.remainingRooms.get(roomIndex).setNumAssigned(rooms.get(roomIndex).getNumAssigned() + 1);
-		}
-		else
-			node.remainingRooms.get(roomIndex).setNumAssigned(rooms.get(roomIndex).getNumAssigned() + 1);
-		
-		
-		node.assignment.add(new Tuple(node.remainingRooms.get(roomIndex), node.remainingPeople.get(personIndex)));*/
+		SisyphusI.output.print("assign-to("+p+", "+room+")\n");
 	}
 
 	//@Override

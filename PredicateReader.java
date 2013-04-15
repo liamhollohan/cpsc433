@@ -71,7 +71,7 @@ public class PredicateReader extends Entity {
 	public int fromFile(String fileName) {
 		int ret = 0;
 		BufferedReader stream = null;
-		System.out.println("reading file "+fileName+"...");
+		//System.out.println("reading file "+fileName+"...");
 		try {
 			stream = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
 			ret = fromStream(stream);
@@ -86,7 +86,7 @@ public class PredicateReader extends Entity {
 		catch (IOException ex) {
 			error("Can't close file " + fileName);
 		}
-		System.out.println("... read "+ret+" lines from file "+fileName);
+		//System.out.println("... read "+ret+" lines from file "+fileName);
 		return ret;
 	}
 

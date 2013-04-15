@@ -3,16 +3,24 @@ package cpsc433;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class defines the structure of a node in the or tree. It contains
+ * all the information stored in the node including a list of remaining
+ * people, remaining rooms, and assignment.
+ * @author Liam Hollohan with help from Andrew Kuipers
+ *
+ */
 public class OTreeNode implements Comparable<OTreeNode> {
+	//Lists included in the node
     public ArrayList<Tuple> assignment = new ArrayList<Tuple>();
     public ArrayList<Room> remainingRooms = new ArrayList<Room>();
     public ArrayList<Person> remainingPeople = new ArrayList<Person>();
     private Environment env;
     
-    private int utility;
-    private int projectedUtility;
+    private int utility; //computed utility
+    private int projectedUtility; //projected utility if it isn't a leaf node
     
-    //create root node
+    //Create root node
     public OTreeNode(Environment env) {
         
     	this.env = env;
@@ -28,6 +36,8 @@ public class OTreeNode implements Comparable<OTreeNode> {
         for (int i = 0; i < people.size(); i++) {
         	remainingPeople.add(people.get(i));
         }
+        
+        //Utility at root node = 0;
         utility = 0;
     }
     
@@ -42,6 +52,11 @@ public class OTreeNode implements Comparable<OTreeNode> {
         //System.out.println(this.toString());
     }
     
+    /**
+     * This function creates a list of children nodes to be added to the tree.
+     * It will only create the child node if the hard constraints are met
+     * @return
+     */
     public OTreeNode[] Branch() 
     {
         //create a new array of children (One child per room remaining)
@@ -76,7 +91,10 @@ public class OTreeNode implements Comparable<OTreeNode> {
             int childProjectedUtility = calculateProjectedUtility(childUtility, childAssignment);
             //System.out.println("childUtility = " + childUtility);
         	childRemainingPeople.remove(p);
-            children[i] = new OTreeNode(env, childAssignment, childRemainingRooms, childRemainingPeople, childUtility, childProjectedUtility);
+        	//if (Solution.checkBigMoney(childAssignment))
+        	//{	
+        		children[i] = new OTreeNode(env, childAssignment, childRemainingRooms, childRemainingPeople, childUtility, childProjectedUtility);
+        	//}
         }
         return children;
     }
@@ -166,7 +184,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
         //utility = childUtility;
         
         if (remainingPeople.size() > 0 && childAssignment.size() != 0) {
-            childUtility += childUtility/childAssignment.size() * 0.1 * (remainingPeople.size() + 1);
+            childUtility += childUtility/childAssignment.size() * 0.35 * (remainingPeople.size() + 1);
         }
         //projectedUtility = childUtility;
         return childUtility;
@@ -175,7 +193,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
     public int calculateProjectedUtility(int utility, ArrayList<Tuple> childAssignment)
     {
         if (remainingPeople.size() > 0 && childAssignment.size() != 0) {
-            utility += utility/childAssignment.size() * 0.1 * (remainingPeople.size() + 1);
+            utility += utility/childAssignment.size() * 0.35 * (remainingPeople.size() + 1);
         }
     	return 0;
     }

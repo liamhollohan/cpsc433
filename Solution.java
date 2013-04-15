@@ -58,7 +58,7 @@ public class Solution
 				{
 					if(assignment.get(j).getRoom().getName().equals(roomNumber) && !assignment.get(j).getPerson().getName().equals(managerName))
 					{
-						System.out.println(" -> Error: Big Money No Share!");
+						//System.out.println(" -> Error: Big Money No Share!");
 						return false;
 					}
 				}
