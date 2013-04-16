@@ -2,6 +2,7 @@ package cpsc433;
 
 import java.util.ArrayList;
 
+//This is the person class which holds the various traits of a given person
 public class Person {
 
 	private String name;

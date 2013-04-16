@@ -154,7 +154,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
 	 * This method checks all the soft constraints and accumulates the penalties
 	 * associated with that assignment.
 	 * @param assignment
-	 * @return utility - the total amount of penalties assigned to the assignment
+	 * @return totalUtility - the total amount of penalties assigned to the assignment
 	 */
 	public int calculateUtility(ArrayList<Tuple> assignment)
 	{
@@ -165,31 +165,36 @@ public class OTreeNode implements Comparable<OTreeNode> {
 			//Check constraints for group heads.
 			if(!assignment.get(i).getPerson().getGroupHead().equals("none"))
 			{
-				
+				//Check all soft constraint violations that have to do with group heads
 				totalUtility += Solution.checkGroupHeadLarge(assigned); // 1
 				totalUtility += Solution.checkGroupHeadsClose(assigned, assignment); // 2
 				totalUtility += Solution.checkSecretaryClose(assigned, assignment); // 3
 			}
 			if(assignment.get(i).getPerson().getSecretary())
 			{
+				//Check soft constraint violations that have to do with secretarys
 				totalUtility += Solution.checkSecretariesTogether(assigned, assignment); // 4
 			}
 			if(assignment.get(i).getPerson().getManager())
 			{
+				//Chaeck all manager related soft constraints
 				totalUtility += Solution.checkManagerCloseSecretary(assigned, assignment); // 5
 				totalUtility += Solution.checkManagerCloseGroupHead(assigned, assignment); // 6
 				totalUtility += Solution.checkManagerCloseAll(assigned, assignment); // 7
 			}
 			if(!assignment.get(i).getPerson().getProjectHead().equals("none"))
 			{
+				//Chaeck all project head related soft constraints
 				totalUtility += Solution.checkHeadProjClose2All(assigned, assignment); // 8
 				totalUtility += Solution.checkLargeProjectHeadCloseSecretary(assigned, assignment, env.getProjects()); // 9
 				totalUtility += Solution.checkProjHeadCloseGroupHead(assigned, assignment, env.getProjects());// 10
 			}
 			if(assignment.get(i).getPerson().getSmoker())
 			{
+				//Check smoker related soft constraints
 				totalUtility += Solution.checkSmokersTogether(assigned, assignment); // 11
 			}
+			//Check the rest of the soft constraints
 			totalUtility += Solution.checkSameProjectTogether(assigned, assignment); // 12
 			totalUtility += Solution.checkHackersShare(assigned, assignment); // 13
 			totalUtility += Solution.checkShareOffice(assigned, assignment); // 14
@@ -204,12 +209,15 @@ public class OTreeNode implements Comparable<OTreeNode> {
 	 * This method calculates what it predicts to be the final utility at the
 	 * leaf node of the tree.
 	 * @param childAssignment
-	 * @return
+	 * @return childUtility - the total pojected utility for a given node in the tree
 	 */
     public int calculateProjectedUtility(ArrayList<Tuple> childAssignment) {
+    	//Get the actual utility
         int childUtility = calculateUtility(childAssignment);
         
+        //If the size is greater than 0 eople left to assign, calculate the total projected utility
         if (remainingPeople.size() > 0 && childAssignment.size() != 0) {
+        	//Calculate the projected utility of a given node given the amount of people yet to assign and the actual utility
             childUtility += childUtility/childAssignment.size() * MODIFIER * (remainingPeople.size() + 1);
         }
         return childUtility;
@@ -264,37 +272,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
         {
         	if (assignment.get(i).equals(otherAssignment.get(i)))
         		return false;
-        }
-        
-        /*
-        //Get the list of remaining rooms from the other node
-        ArrayList<Room> otherRemainingRooms = otherNode.remainingRooms;
-        
-        //check to make sure their sizes are the same
-        if (otherRemainingRooms.size() != remainingRooms.size())
-        	return false;
-
-        //loop through the entire list to make sure every element of the list is the same
-        for (int i = 0; i < remainingRooms.size(); i++)
-        {
-        	if (remainingRooms.get(i) != otherRemainingRooms.get(i))
-        		return false;
-        }
-        
-        //Get the list of remaining people from the other node
-        ArrayList<Person> otherRemainingPeople = otherNode.remainingPeople;
-        
-        //Check to make sure their sizes are the same
-        if (otherRemainingPeople.size() != remainingPeople.size())
-        	return false;
-        
-        //Loop through the entire list to make sure every element of the list is the same
-        for (int i = 0; i < remainingPeople.size(); i++)
-        {
-        	if (remainingPeople.get(i) != otherRemainingPeople.get(i))
-        		return false;
-        }*/
-        
+        }        
         return true;
     }
     

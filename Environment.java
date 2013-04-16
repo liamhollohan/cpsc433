@@ -7,6 +7,7 @@ import cpsc433.Predicate.ParamType;
 
 public class Environment extends PredicateReader implements SisyphusPredicates{
 
+	//Various arrays to hold all of the data read in from the file.
 	private static ArrayList<String> peopleNames = new ArrayList<String>();
 	private static ArrayList<Person> people = new ArrayList<Person>();
 	private static ArrayList<String> groupNames = new ArrayList<String>();
@@ -16,11 +17,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	private static ArrayList<String> roomNames = new ArrayList<String>();
 	private static ArrayList<Room> rooms = new ArrayList<Room>();
 
-	//public static ArrayList<Room> refRooms = new ArrayList<Room>();
-	//public static ArrayList<Person> refPeople = new ArrayList<Person>();
-	
-	//private static ArrayList<Tuple> assignment = new ArrayList<Tuple>();
-	
 	public Environment(PredicateReader p) 
 	{
 		super(p);		
@@ -40,24 +36,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		roomNames.clear();
 		rooms.clear();
 		people.clear();
-		//assignment.clear();
 	}
-	
-	/*public static ArrayList<Room> getRefRooms() {
-		return refRooms;
-	}
-
-	public static void setRefRooms(ArrayList<Room> refRooms) {
-		Environment.refRooms = refRooms;
-	}
-
-	public static ArrayList<Person> getRefPeople() {
-		return refPeople;
-	}
-
-	public static void setRefPeople(ArrayList<Person> refPeople) {
-		Environment.refPeople = refPeople;
-	}*/
 	
 	public ArrayList<String> getPeopleNames()
 	{
@@ -68,11 +47,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	{
 		return roomNames;
 	}
-	
-	/*public ArrayList<Tuple> getAssignment()
-	{
-		return assignment;
-	}*/
 	
 	public ArrayList<Person> getPeople()
 	{
@@ -97,7 +71,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	@Override
 	public void a_person(String p) 
 	{
-		//assert_("person(" + p + ")");
 		//Check to see if the person doesn't already exist.
 		if(!peopleNames.contains(p))
 		{
@@ -107,11 +80,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			//Add the persons name to the list of people.
 			peopleNames.add(p);
 		}
-		/*System.out.println(" -> peopleNames.size() = " + peopleNames.size());
-		for (int i = 0; i < peopleNames.size(); i++)
-		{
-			System.out.println(" -> Names: " + peopleNames.get(i));
-		}*/
 	}
 
 	@Override
@@ -147,7 +115,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 			}
 		} else {
 			//Person doesn't exist yet so create the person and set their name and set the secretary field to true.
-			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
 			newPerson.setSecretary(true);
 			//Add the new person to both our lists.
@@ -192,7 +159,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the researcher field to true.
-			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
 			newPerson.setResearcher(true);
 			//Add the new person to both our lists.
@@ -237,7 +203,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the manager field to true.
-			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
 			newPerson.setManager(true);
 			//Add the new person to both our lists.
@@ -282,7 +247,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the smoker field to true.
-			assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
 			newPerson.setSmoker(true);
 			//Add the new person to both our lists.
@@ -327,7 +291,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the hacker field to true.
-			assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
 			newPerson.setHacker(true);
 			//Add the new person to both our lists.
@@ -372,7 +335,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the group field.
-			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
 			newPerson.setGroup(grp);
 			//Add the new person to both our lists.
@@ -383,7 +345,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		if (!groupNames.contains(grp))
 		{
 			//If not, add it.
-			//assert_("group("+ grp + ")");
 			Group newGroup = new Group(grp);
 			groups.add(newGroup);
 			groupNames.add(grp);
@@ -426,7 +387,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the project field to true.
-			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
 			people.add(newPerson);
 			peopleNames.add(p);
@@ -478,7 +438,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the group they head.
-			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
 			//Add the new person to both our lists.
 			people.add(newPerson);
@@ -531,7 +490,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		else
 		{
 			//Person doesn't exist yet so create the person and set their name and set the project field to true.
-			//assert_("person(" + p + ")");
 			Person newPerson = new Person(p);
 			people.add(newPerson);
 			peopleNames.add(p);
@@ -605,37 +563,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		//If the person doesn't exist, create a new person with the proper values.
 		else
 		{
-			assert_("person(" + p + ")");
 			Person per = new Person(p);
 			per.setWorksWith(p2);
 			people.add(per);
 			//Add the persons name to the list of people.
 			peopleNames.add(p);
 		}
-		/*
-		if (peopleNames.contains(p2))
-		{
-			for (int i = 0; i<people.size(); i++)
-			{
-				//Check the persons name.
-				if (people.get(i).getName().equals(p2))
-				{
-					//Set the person that the person works with.
-					people.get(i).setWorksWith(p);
-					break;
-				}
-			}
-		}
-		//If the person doesn't exist, create a new person with the proper values.
-		else
-		{
-			assert_("person(" + p + ")");
-			Person per = new Person(p2);
-			per.setWorksWith(p);
-			people.add(per);
-			//Add the persons name to the list of people.
-			peopleNames.add(p2);
-		}*/
 	}
 
 	@Override
@@ -660,16 +593,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 	{	
 		SisyphusI.output.print("assign-to("+p+", "+room+")\n");
 	}
-
-	//@Override
-	/*public boolean e_assign_to(String p, String room) 
-	{
-		int roomIndex = roomNames.indexOf(room);
-		int personIndex = peopleNames.indexOf(p);
-		Tuple check = new Tuple(rooms.get(roomIndex), people.get(personIndex));
-		
-		return node.assignment.contains(check);
-	}*/
 
 	@Override
 	public void a_room(String r) {
@@ -702,7 +625,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		//If the first room doesn't exists
 		else
 		{
-			//assert_("room("+ room + ")");
 			Room newRoom = new Room(room);
 			newRoom.setClose(room2);
 			rooms.add(newRoom);
@@ -722,7 +644,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//assert_("room("+ room2 + ")");
 			Room newRoom = new Room(room2);
 			newRoom.setClose(room);
 			rooms.add(newRoom);
@@ -778,7 +699,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//assert_("room(" + r + ")");
 			Room room = new Room(r);
 			room.setSize("large");
 			rooms.add(room);
@@ -813,7 +733,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//assert_("room(" + r + ")");
 			Room room = new Room(r);
 			room.setSize("medium");
 			rooms.add(room);
@@ -848,7 +767,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			//assert_("room(" + r + ")");
 			Room room = new Room(r);
 			room.setSize("small");
 			rooms.add(room);
@@ -918,7 +836,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 		}
 		else
 		{
-			assert_("project(" + prj + ")");
 			Project project= new Project(prj);
 			project.setLarge(true);
 			projects.add(project);
@@ -956,7 +873,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates{
 
 	@Override
 	public boolean e_assign_to(String p, String room) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

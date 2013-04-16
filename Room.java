@@ -5,6 +5,8 @@ import java.util.TreeSet;
 
 import cpsc433.Predicate.ParamType;
 
+//This is the room class which given a room, it stores the size of the room and the proximity to other rooms.
+//It also keeps track of whether the room is full or not and how many people are assigned to a room.
 public class Room 
 {
 	private String name;
