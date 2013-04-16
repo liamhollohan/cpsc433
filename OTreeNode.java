@@ -20,7 +20,10 @@ public class OTreeNode implements Comparable<OTreeNode> {
     private int utility; //computed utility
     private int projectedUtility; //projected utility if it isn't a leaf node
     
-    //Create root node
+    //used to calculate the projected utility of the node (calculateProjectedUtility)
+    private final float MODIFIER = 0.35f;
+    
+    //Constructor for Root Node of the Or Tree
     public OTreeNode(Environment env) {
         
     	this.env = env;
@@ -41,7 +44,7 @@ public class OTreeNode implements Comparable<OTreeNode> {
         utility = 0;
     }
     
-    //Create children node
+    //Constructor for every subsequent child node of the Or Tree
     public OTreeNode(Environment env, ArrayList<Tuple> assignment, ArrayList<Room> remainingRooms, ArrayList<Person> remainingPeople, int utility, int projectedUtility) {
         this.env = env;
         this.assignment = assignment;
@@ -53,9 +56,11 @@ public class OTreeNode implements Comparable<OTreeNode> {
     }
     
     /**
-     * This function creates a list of children nodes to be added to the tree.
-     * It will only create the child node if the hard constraints are met
-     * @return
+     * This function creates a list of children nodes to be added to the tree
+     * under the current parent node (this). It will only create the child 
+     * node if the hard constraints are met. We loop through all of the
+     * remaining rooms and assign a randomly chosen person to each room.
+     * @return children - list of children connected to this node.
      */
     public OTreeNode[] Branch() 
     {
@@ -81,25 +86,31 @@ public class OTreeNode implements Comparable<OTreeNode> {
         		childRemainingPeople.add(remainingPeople.get(j));
         	}
             
+            //Assign the selected to person to the room
             Tuple t = new Tuple(childRemainingRooms.get(i),p);
             childAssignment.add(t);
 
+            //If the room is now full, remove the room from the remainingRooms list.
             if (checkFullRoom(childRemainingRooms.get(i), childAssignment))
             	childRemainingRooms.remove(i);
             
+            //Calculate both forms of the utility for the new child
             int childUtility = calculateUtility(childAssignment);
             int childProjectedUtility = calculateProjectedUtility(childUtility, childAssignment);
-            //System.out.println("childUtility = " + childUtility);
         	childRemainingPeople.remove(p);
-        	//if (Solution.checkBigMoney(childAssignment))
-        	//{	
-        		children[i] = new OTreeNode(env, childAssignment, childRemainingRooms, childRemainingPeople, childUtility, childProjectedUtility);
-        	//}
+
+        	//Add the child to list of children nodes
+        	children[i] = new OTreeNode(env, childAssignment, childRemainingRooms, childRemainingPeople, childUtility, childProjectedUtility);
         }
         return children;
     }
     
-    //Double check this method
+    /**
+     * This method simply checks if the given room is full in the given assignment.
+     * @param room
+     * @param childAssignment
+     * @return whether or not the room is full
+     */
     private boolean checkFullRoom(Room room, ArrayList<Tuple> childAssignment) {
     	int peopleCount = 0;
     	for (int i = 0; i < childAssignment.size(); i++)
@@ -107,8 +118,10 @@ public class OTreeNode implements Comparable<OTreeNode> {
     		if (childAssignment.get(i).getRoom().equals(room))
     		{
 	    		peopleCount++;
+	    		//check if the person requires their own room
 	    		if (childAssignment.get(i).getPerson().getManager() || !childAssignment.get(i).getPerson().getGroupHead().equals("None") || !childAssignment.get(i).getPerson().getProjectHead().equals("None")) 
 	    			return true;
+	    		//check if there are 2 people in the room already
 	    		else if (peopleCount >= 2)
 	    			return true;
     		}
@@ -116,9 +129,13 @@ public class OTreeNode implements Comparable<OTreeNode> {
 		return false;
 	}
 
+    /**
+     * This method selects a random person to be assigned to the rooms of
+     * the child.
+     * @return p - Person to assign to the rooms
+     */
 	private Person randomPerson()
     {
-    	//choose a random remainingPerson to assign to a room
     	int x = 0;
         Person p;
     	if (remainingPeople.size() > 1) {
@@ -126,15 +143,19 @@ public class OTreeNode implements Comparable<OTreeNode> {
         	Random rand = new Random();
         	x = Math.abs(rand.nextInt() % remainingPeople.size());
         	p = remainingPeople.get(x);
-        	//remainingPeople.remove(x);
         } else {
+        	//Select the last remaining person to assign to the room
         	p = remainingPeople.get(0);
-        	//remainingPeople.remove(0);
         }
     	return p;
     }
     
-	//Get Actual Utility
+	/**
+	 * This method checks all the soft constraints and accumulates the penalties
+	 * associated with that assignment.
+	 * @param assignment
+	 * @return utility - the total amount of penalties assigned to the assignment
+	 */
 	public int calculateUtility(ArrayList<Tuple> assignment)
 	{
 		int totalUtility = 0;
@@ -179,21 +200,26 @@ public class OTreeNode implements Comparable<OTreeNode> {
 		return totalUtility;
 	}
 	
+	/**
+	 * This method calculates what it predicts to be the final utility at the
+	 * leaf node of the tree.
+	 * @param childAssignment
+	 * @return
+	 */
     public int calculateProjectedUtility(ArrayList<Tuple> childAssignment) {
         int childUtility = calculateUtility(childAssignment);
-        //utility = childUtility;
         
         if (remainingPeople.size() > 0 && childAssignment.size() != 0) {
-            childUtility += childUtility/childAssignment.size() * 0.35 * (remainingPeople.size() + 1);
+            childUtility += childUtility/childAssignment.size() * MODIFIER * (remainingPeople.size() + 1);
         }
-        //projectedUtility = childUtility;
         return childUtility;
     }
+
     
     public int calculateProjectedUtility(int utility, ArrayList<Tuple> childAssignment)
     {
         if (remainingPeople.size() > 0 && childAssignment.size() != 0) {
-            utility += utility/childAssignment.size() * 0.35 * (remainingPeople.size() + 1);
+            utility += utility/childAssignment.size() * MODIFIER * (remainingPeople.size() + 1);
         }
     	return 0;
     }
